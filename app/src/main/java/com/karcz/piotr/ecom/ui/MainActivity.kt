@@ -1,4 +1,4 @@
-package com.karcz.piotr.ecom.home
+package com.karcz.piotr.ecom.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
