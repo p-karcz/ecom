@@ -2,6 +2,8 @@ package com.karcz.piotr.ecom.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.karcz.piotr.ecom.R
 
 class MainActivity : AppCompatActivity() {
