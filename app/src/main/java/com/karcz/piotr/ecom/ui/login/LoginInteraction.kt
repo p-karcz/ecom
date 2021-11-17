@@ -1,7 +1,10 @@
 package com.karcz.piotr.ecom.ui.login
 
-sealed class LoginInteraction {
+import android.text.Editable
 
-    object LoginButtonClick: LoginInteraction()
-    object RegisterButtonClick: LoginInteraction()
+sealed class LoginInteraction {
+    object LoginButtonClicked : LoginInteraction()
+    object RegisterButtonClicked : LoginInteraction()
+    data class EmailFieldChanged(val text: Editable?) : LoginInteraction()
+    data class PasswordFieldChanged(val text: Editable?) : LoginInteraction()
 }

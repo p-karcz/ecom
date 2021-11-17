@@ -1,4 +1,4 @@
-package com.karcz.piotr.ecom.base
+package com.karcz.piotr.ecom.base.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater

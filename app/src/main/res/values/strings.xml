@@ -1,8 +1,15 @@
 <resources>
     <string name="app_name">eCom</string>
-    <!-- Strings related to login -->
+
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
+    <string name="prompt_repeat_password">Repeat password</string>
+    <string name="prompt_country">Country</string>
+    <string name="prompt_city">City</string>
+    <string name="prompt_postal_code">Postal code</string>
+    <string name="prompt_street">Street</string>
+    <string name="prompt_flat_number">Flat number</string>
+
     <string name="action_sign_in">Sign in</string>
     <string name="action_register">Register</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -10,4 +17,7 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
+
+    <string name="bumble">"You think it\'s funny to take screenshots of people\'s NFTs, huh? Property theft is a joke to you? I\'ll have you know that the blockchain doesn\'t lie. I own it. Even if you save it, it's my property. You are mad that you don't own the art that I own.
+Delete that screenshot."</string>
 </resources>
