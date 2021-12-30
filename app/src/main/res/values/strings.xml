@@ -18,8 +18,12 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
 
-    <string name="menu_about">About</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_cart">Cart</string>
+    <string name="menu_account">Account</string>
 
     <string name="bumble">"You think it\'s funny to take screenshots of people\'s NFTs, huh? Property theft is a joke to you? I\'ll have you know that the blockchain doesn\'t lie. I own it. Even if you save it, it's my property. You are mad that you don't own the art that I own.
 Delete that screenshot."</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

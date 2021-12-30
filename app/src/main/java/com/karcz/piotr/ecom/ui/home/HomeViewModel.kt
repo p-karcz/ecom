@@ -1,6 +1,12 @@
 package com.karcz.piotr.ecom.ui.home
 
-import androidx.lifecycle.ViewModel
+import com.karcz.piotr.ecom.base.ui.BaseViewModel
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel : BaseViewModel<HomeViewState, HomeNavigation, HomeInteraction>(HomeViewState.Success()) {
+
+    override fun onInteraction(interaction: HomeInteraction) {
+        when (interaction) {
+
+        }
+    }
 }

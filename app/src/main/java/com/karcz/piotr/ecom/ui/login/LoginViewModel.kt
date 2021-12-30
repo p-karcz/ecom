@@ -1,28 +1,23 @@
 package com.karcz.piotr.ecom.ui.login
 
 import android.text.Editable
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.*
+import com.karcz.piotr.ecom.base.ui.BaseViewModel
 import kotlinx.coroutines.launch
 
-class LoginViewModel : ViewModel() {
-
-    private val _loginViewState: MutableStateFlow<LoginViewState> = MutableStateFlow(LoginViewState.INITIAL)
-    val loginViewState: StateFlow<LoginViewState> = _loginViewState.asStateFlow()
-
-    private val _loginActionState: MutableSharedFlow<LoginActionState> = MutableSharedFlow()
-    val loginActionState: SharedFlow<LoginActionState> = _loginActionState.asSharedFlow()
+class LoginViewModel : BaseViewModel<LoginViewState, LoginNavigation, LoginInteraction>(
+    LoginViewState.INITIAL
+) {
 
     private var isEmailValid = false
     private var isPasswordValid = false
 
-    fun onInteraction(interaction: LoginInteraction) {
+    override fun onInteraction(interaction: LoginInteraction) {
         when (interaction) {
             is LoginInteraction.LoginButtonClicked ->
-                viewModelScope.launch { _loginActionState.emit(LoginActionState.NavigateToHome) }
+                viewModelScope.launch { _navigation.emit(LoginNavigation.NavigateToHome) }
             is LoginInteraction.RegisterButtonClicked ->
-                viewModelScope.launch { _loginActionState.emit(LoginActionState.NavigateToRegistration) }
+                viewModelScope.launch { _navigation.emit(LoginNavigation.NavigateToRegistration) }
             is LoginInteraction.EmailFieldChanged -> validateEmailInput(interaction.text)
             is LoginInteraction.PasswordFieldChanged -> validatePasswordInput(interaction.text)
         }
@@ -31,10 +26,10 @@ class LoginViewModel : ViewModel() {
     private fun validateEmailInput(text: Editable?) {
         if (text == null || !text.contains('@')) {
             isEmailValid = false
-            _loginViewState.value = _loginViewState.value.copy(isLoginButtonEnabled = isEmailValid)
+            _viewState.value = _viewState.value.copy(isLoginButtonEnabled = isEmailValid)
         } else if (isPasswordValid) {
             isEmailValid = true
-            _loginViewState.value = _loginViewState.value.copy(isLoginButtonEnabled = isEmailValid)
+            _viewState.value = _viewState.value.copy(isLoginButtonEnabled = isEmailValid)
         } else {
             isEmailValid = true
         }
@@ -43,10 +38,10 @@ class LoginViewModel : ViewModel() {
     private fun validatePasswordInput(text: Editable?) {
         if (text == null || text.length < 8) {
             isPasswordValid = false
-            _loginViewState.value = _loginViewState.value.copy(isLoginButtonEnabled = isPasswordValid)
+            _viewState.value = _viewState.value.copy(isLoginButtonEnabled = isPasswordValid)
         } else if (isEmailValid) {
             isPasswordValid = true
-            _loginViewState.value = _loginViewState.value.copy(isLoginButtonEnabled = isPasswordValid)
+            _viewState.value = _viewState.value.copy(isLoginButtonEnabled = isPasswordValid)
         } else {
             isPasswordValid = true
         }

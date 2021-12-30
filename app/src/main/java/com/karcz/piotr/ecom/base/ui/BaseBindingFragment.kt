@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 
-private typealias ViewBindingInflater<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
+internal typealias ViewBindingInflater<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
 abstract class BaseBindingFragment<B: ViewBinding>(
     private val viewBindingInflater: ViewBindingInflater<B>

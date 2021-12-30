@@ -7,34 +7,31 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import com.karcz.piotr.ecom.R
-import com.karcz.piotr.ecom.base.ui.BaseBindingFragment
+import androidx.navigation.fragment.findNavController
+import com.karcz.piotr.ecom.base.ui.BaseStateFragment
 import com.karcz.piotr.ecom.databinding.FragmentLoginBinding
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
-class LoginFragment : BaseBindingFragment<FragmentLoginBinding>(FragmentLoginBinding::inflate) {
+class LoginFragment : BaseStateFragment<FragmentLoginBinding, LoginViewState, LoginNavigation, LoginInteraction>(
+    FragmentLoginBinding::inflate
+) {
 
-    private val loginViewModel: LoginViewModel by viewModels()
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpOnClickListeners()
-        observeViewState()
-        observeActionState()
+        observeViewState(viewModel)
+        observeNavigation(viewModel)
     }
 
     private fun setUpOnClickListeners() {
         binding.registerButton.setOnClickListener {
-            loginViewModel.onInteraction(LoginInteraction.RegisterButtonClicked)
+            viewModel.onInteraction(LoginInteraction.RegisterButtonClicked)
         }
 
         binding.loginButton.setOnClickListener {
-            loginViewModel.onInteraction(LoginInteraction.LoginButtonClicked)
+            viewModel.onInteraction(LoginInteraction.LoginButtonClicked)
         }
 
         binding.emailEditText.addTextChangedListener(afterTextChanged = ::checkEmail)
@@ -42,38 +39,22 @@ class LoginFragment : BaseBindingFragment<FragmentLoginBinding>(FragmentLoginBin
     }
 
     private fun checkEmail(text: Editable?) =
-        loginViewModel.onInteraction(LoginInteraction.EmailFieldChanged(text))
+        viewModel.onInteraction(LoginInteraction.EmailFieldChanged(text))
 
     private fun checkPassword(text: Editable?) =
-        loginViewModel.onInteraction(LoginInteraction.PasswordFieldChanged(text))
+        viewModel.onInteraction(LoginInteraction.PasswordFieldChanged(text))
 
-    private fun observeViewState() = viewLifecycleOwner.lifecycleScope.launch {
-        repeatOnLifecycle(Lifecycle.State.STARTED) {
-            loginViewModel.loginViewState.collect { loginViewState ->
-                handleViewState(loginViewState)
-            }
-        }
+    override fun handleViewState(viewState: LoginViewState) {
+        binding.loadingProgressBar.isVisible = viewState.isLoading
+        binding.loginButton.isEnabled = viewState.isLoginButtonEnabled
     }
 
-    private fun handleViewState(loginViewState: LoginViewState) {
-        binding.loadingProgressBar.isVisible = loginViewState.isLoading
-        binding.loginButton.isEnabled = loginViewState.isLoginButtonEnabled
-    }
-
-    private fun observeActionState() = viewLifecycleOwner.lifecycleScope.launch {
-        repeatOnLifecycle(Lifecycle.State.STARTED) {
-            loginViewModel.loginActionState.collect { loginActionState ->
-                handleActionState(loginActionState)
-            }
-        }
-    }
-
-    private fun handleActionState(loginActionState: LoginActionState) = when (loginActionState) {
-        is LoginActionState.NavigateToHome ->
+    override fun handleNavigation(navigation: LoginNavigation) = when (navigation) {
+        is LoginNavigation.NavigateToHome ->
             findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-        is LoginActionState.NavigateToRegistration ->
+        is LoginNavigation.NavigateToRegistration ->
             findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
-        is LoginActionState.ShowToast -> showToast(loginActionState.text)
+        is LoginNavigation.ShowToast -> showToast(navigation.text)
     }
 
     private fun showToast(errorMessage: String) =
