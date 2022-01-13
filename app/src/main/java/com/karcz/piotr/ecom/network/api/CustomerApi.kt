@@ -1,30 +1,27 @@
 package com.karcz.piotr.ecom.network.api
 
-import com.karcz.piotr.ecom.data.AddressModel
-import com.karcz.piotr.ecom.data.CustomerModel
-import com.karcz.piotr.ecom.network.data.Response
-import retrofit2.http.*
+import com.karcz.piotr.ecom.network.Response
+import com.karcz.piotr.ecom.network.transferdata.AddressTransferModel
+import com.karcz.piotr.ecom.network.transferdata.CustomerTransferModel
+import retrofit2.http.Body
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.PUT
 
 interface CustomerApi {
 
     @GET("/me")
-    suspend fun getCustomer(): CustomerModel
+    suspend fun getCustomer(): CustomerTransferModel
 
     @PUT("/me/update")
-    suspend fun updateCustomer(@Body customerModel: CustomerModel): Response
+    suspend fun updateCustomer(@Body customerTransferModel: CustomerTransferModel): Response
 
     @DELETE("/me/removeAccount")
-    suspend fun removeAccount(@Body customerModel: CustomerModel): Response
+    suspend fun removeAccount(@Body customerTransferModel: CustomerTransferModel): Response
 
     @GET("/me/address")
-    suspend fun getAddress(): AddressModel
-
-    @POST("/me/address")
-    suspend fun addAddress(@Body addressModel: AddressModel): Response
+    suspend fun getAddress(): AddressTransferModel
 
     @PUT("/me/address")
-    suspend fun updateAddress(@Body addressModel: AddressModel): Response
-
-    @DELETE("/me/address")
-    suspend fun removeAddress(@Body addressModel: AddressModel): Response
+    suspend fun updateAddress(@Body addressTransferModel: AddressTransferModel): Response
 }

@@ -4,20 +4,20 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.karcz.piotr.ecom.data.ProductModel
+import com.karcz.piotr.ecom.data.ProductDomainModel
 import com.karcz.piotr.ecom.databinding.ListCategoryProductBinding
 
 class CategoryProductViewHolder(private val binding: ListCategoryProductBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    fun onBind(productModel: ProductModel) {
+    fun onBind(productDomainModel: ProductDomainModel) {
         with(binding) {
             Glide.with(root.context)
-                .load(productModel.image)
+                .load(productDomainModel.image)
                 .into(categoryProductImageView)
 
-            categoryProductTitleTextView.text = productModel.name
-            categoryProductDescriptionTextView.text = productModel.description
-            categoryProductPriceTextView.text = productModel.price.toString()
+            categoryProductTitleTextView.text = productDomainModel.name
+            categoryProductDescriptionTextView.text = productDomainModel.description
+            categoryProductPriceTextView.text = productDomainModel.price.toString()
         }
     }
 

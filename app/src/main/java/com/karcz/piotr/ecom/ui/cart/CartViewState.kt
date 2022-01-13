@@ -1,14 +1,14 @@
 package com.karcz.piotr.ecom.ui.cart
 
-import com.karcz.piotr.ecom.data.ProductModel
+import com.karcz.piotr.ecom.data.ProductDomainModel
 
 sealed class CartViewState {
 
-    data class Success(val products: List<ProductModel>) : CartViewState()
+    data class Success(val productDomains: List<ProductDomainModel>) : CartViewState()
     object Loading : CartViewState()
     object Error : CartViewState()
 
     companion object {
-        val INITIAL = Success(products = emptyList())
+        val INITIAL = Success(productDomains = emptyList())
     }
 }

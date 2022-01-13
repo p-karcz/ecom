@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.karcz.piotr.ecom.data.ProductModel
+import com.karcz.piotr.ecom.data.ProductDomainModel
 
-class CategoryProductsAdapter : ListAdapter<ProductModel, CategoryProductViewHolder>(
+class CategoryProductsAdapter : ListAdapter<ProductDomainModel, CategoryProductViewHolder>(
     CategoryProductsDiffer
 ) {
 
@@ -18,11 +18,11 @@ class CategoryProductsAdapter : ListAdapter<ProductModel, CategoryProductViewHol
         holder.onBind(getItem(position))
     }
 
-    object CategoryProductsDiffer : DiffUtil.ItemCallback<ProductModel>() {
-        override fun areItemsTheSame(oldItem: ProductModel, newItem: ProductModel) =
+    object CategoryProductsDiffer : DiffUtil.ItemCallback<ProductDomainModel>() {
+        override fun areItemsTheSame(oldItem: ProductDomainModel, newItem: ProductDomainModel) =
             oldItem::class == newItem::class
 
-        override fun areContentsTheSame(oldItem: ProductModel, newItem: ProductModel) =
+        override fun areContentsTheSame(oldItem: ProductDomainModel, newItem: ProductDomainModel) =
             oldItem == newItem
     }
 }
