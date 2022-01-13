@@ -8,7 +8,9 @@ import com.karcz.piotr.ecom.R
 import com.karcz.piotr.ecom.base.ui.BaseStateFragment
 import com.karcz.piotr.ecom.common.ui.visibleOrGone
 import com.karcz.piotr.ecom.databinding.FragmentRegistrationBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterFragment
     : BaseStateFragment<FragmentRegistrationBinding, RegisterViewState, RegisterNavigation, RegisterInteraction>(
     FragmentRegistrationBinding::inflate
@@ -24,8 +26,14 @@ class RegisterFragment
     }
 
     override fun handleViewState(viewState: RegisterViewState) {
-        binding.loadingProgressBar.visibleOrGone(viewState.isRegisterButtonEnabled)
-        binding.registerButton.isEnabled = viewState.isRegisterButtonEnabled
+        when (viewState) {
+            is RegisterViewState.Success -> {
+                binding.loadingProgressBar.visibleOrGone(viewState.isRegisterButtonEnabled)
+                binding.registerButton.isEnabled = viewState.isRegisterButtonEnabled
+            }
+            is RegisterViewState.Loading -> { }
+            is RegisterViewState.Error -> { }
+        }
     }
 
     override fun handleNavigation(navigation: RegisterNavigation) = when (navigation) {

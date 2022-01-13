@@ -2,10 +2,13 @@ package com.karcz.piotr.ecom.ui.registration
 
 import androidx.lifecycle.viewModelScope
 import com.karcz.piotr.ecom.base.ui.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RegisterViewModel : BaseViewModel<RegisterViewState, RegisterNavigation, RegisterInteraction>(
+@HiltViewModel
+class RegisterViewModel @Inject constructor() : BaseViewModel<RegisterViewState, RegisterNavigation, RegisterInteraction>(
     RegisterViewState.INITIAL
 ) {
 

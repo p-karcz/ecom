@@ -1,9 +1,12 @@
 package com.karcz.piotr.ecom.ui.products
 
 import com.karcz.piotr.ecom.base.ui.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ProductsViewModel : BaseViewModel<ProductsViewState, ProductsNavigation, ProductsInteraction>(
-    ProductsViewState.Success()
+@HiltViewModel
+class ProductsViewModel @Inject constructor() : BaseViewModel<ProductsViewState, ProductsNavigation, ProductsInteraction>(
+    ProductsViewState.INITIAL
 ) {
 
     override fun onInteraction(interaction: ProductsInteraction) {

@@ -2,7 +2,9 @@ package com.karcz.piotr.ecom.ui.products
 
 import com.karcz.piotr.ecom.base.ui.BaseStateFragment
 import com.karcz.piotr.ecom.databinding.FragmentProductsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProductsFragment : BaseStateFragment<FragmentProductsBinding, ProductsViewState, ProductsNavigation, ProductsInteraction>(
     FragmentProductsBinding::inflate
 ) {

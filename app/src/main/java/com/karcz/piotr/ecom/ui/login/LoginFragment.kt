@@ -11,7 +11,9 @@ import com.karcz.piotr.ecom.R
 import androidx.navigation.fragment.findNavController
 import com.karcz.piotr.ecom.base.ui.BaseStateFragment
 import com.karcz.piotr.ecom.databinding.FragmentLoginBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginFragment : BaseStateFragment<FragmentLoginBinding, LoginViewState, LoginNavigation, LoginInteraction>(
     FragmentLoginBinding::inflate
 ) {
@@ -45,8 +47,15 @@ class LoginFragment : BaseStateFragment<FragmentLoginBinding, LoginViewState, Lo
         viewModel.onInteraction(LoginInteraction.PasswordFieldChanged(text))
 
     override fun handleViewState(viewState: LoginViewState) {
-        binding.loadingProgressBar.isVisible = viewState.isLoading
-        binding.loginButton.isEnabled = viewState.isLoginButtonEnabled
+        when(viewState) {
+            is LoginViewState.Success -> {
+                binding.loadingProgressBar.isVisible = false
+                binding.loginButton.isEnabled = viewState.isLoginButtonEnabled
+            }
+            is LoginViewState.Loading ->
+                binding.loadingProgressBar.isVisible = true
+            is LoginViewState.Error -> { }
+        }
     }
 
     override fun handleNavigation(navigation: LoginNavigation) = when (navigation) {

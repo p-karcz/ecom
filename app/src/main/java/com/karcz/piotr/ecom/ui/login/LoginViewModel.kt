@@ -3,9 +3,12 @@ package com.karcz.piotr.ecom.ui.login
 import android.text.Editable
 import androidx.lifecycle.viewModelScope
 import com.karcz.piotr.ecom.base.ui.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel : BaseViewModel<LoginViewState, LoginNavigation, LoginInteraction>(
+@HiltViewModel
+class LoginViewModel @Inject constructor() : BaseViewModel<LoginViewState, LoginNavigation, LoginInteraction>(
     LoginViewState.INITIAL
 ) {
 
@@ -26,10 +29,10 @@ class LoginViewModel : BaseViewModel<LoginViewState, LoginNavigation, LoginInter
     private fun validateEmailInput(text: Editable?) {
         if (text == null || !text.contains('@')) {
             isEmailValid = false
-            _viewState.value = _viewState.value.copy(isLoginButtonEnabled = isEmailValid)
+            _viewState.value = LoginViewState.Success(isLoginButtonEnabled = isEmailValid)
         } else if (isPasswordValid) {
             isEmailValid = true
-            _viewState.value = _viewState.value.copy(isLoginButtonEnabled = isEmailValid)
+            _viewState.value = LoginViewState.Success(isLoginButtonEnabled = isEmailValid)
         } else {
             isEmailValid = true
         }
@@ -38,10 +41,10 @@ class LoginViewModel : BaseViewModel<LoginViewState, LoginNavigation, LoginInter
     private fun validatePasswordInput(text: Editable?) {
         if (text == null || text.length < 8) {
             isPasswordValid = false
-            _viewState.value = _viewState.value.copy(isLoginButtonEnabled = isPasswordValid)
+            _viewState.value = LoginViewState.Success(isLoginButtonEnabled = isPasswordValid)
         } else if (isEmailValid) {
             isPasswordValid = true
-            _viewState.value = _viewState.value.copy(isLoginButtonEnabled = isPasswordValid)
+            _viewState.value = LoginViewState.Success(isLoginButtonEnabled = isPasswordValid)
         } else {
             isPasswordValid = true
         }

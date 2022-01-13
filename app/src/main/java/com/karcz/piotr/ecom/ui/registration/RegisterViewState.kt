@@ -1,13 +1,12 @@
 package com.karcz.piotr.ecom.ui.registration
 
-data class RegisterViewState(
-    val isLoading: Boolean,
-    val isRegisterButtonEnabled: Boolean
-){
+sealed class RegisterViewState {
+
+    data class Success(val isRegisterButtonEnabled: Boolean) : RegisterViewState()
+    object Loading : RegisterViewState()
+    object Error : RegisterViewState()
+
     companion object {
-        val INITIAL = RegisterViewState(
-            isLoading = false,
-            isRegisterButtonEnabled = false
-        )
+        val INITIAL = Success(isRegisterButtonEnabled = false)
     }
 }

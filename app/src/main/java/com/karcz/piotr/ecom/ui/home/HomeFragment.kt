@@ -10,7 +10,9 @@ import com.karcz.piotr.ecom.R
 import com.karcz.piotr.ecom.base.ui.BaseStateFragment
 import com.karcz.piotr.ecom.common.ui.ProductsAdapter
 import com.karcz.piotr.ecom.databinding.FragmentHomeBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : BaseStateFragment<FragmentHomeBinding, HomeViewState, HomeNavigation, HomeInteraction>(
     FragmentHomeBinding::inflate
 ) {
@@ -30,9 +32,9 @@ class HomeFragment : BaseStateFragment<FragmentHomeBinding, HomeViewState, HomeN
 
     override fun handleViewState(viewState: HomeViewState) {
         when(viewState) {
-            is HomeViewState.Error -> {}
-            is HomeViewState.Loading -> {}
             is HomeViewState.Success -> {}
+            is HomeViewState.Loading -> {}
+            is HomeViewState.Error -> {}
         }
     }
 

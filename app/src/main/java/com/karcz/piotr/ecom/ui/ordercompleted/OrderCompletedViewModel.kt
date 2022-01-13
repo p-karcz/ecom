@@ -1,9 +1,12 @@
 package com.karcz.piotr.ecom.ui.ordercompleted
 
 import com.karcz.piotr.ecom.base.ui.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class OrderCompletedViewModel : BaseViewModel<OrderCompletedViewState, OrderCompletedNavigation, OrderCompletedInteraction>(
-    OrderCompletedViewState.Success()
+@HiltViewModel
+class OrderCompletedViewModel @Inject constructor() : BaseViewModel<OrderCompletedViewState, OrderCompletedNavigation, OrderCompletedInteraction>(
+    OrderCompletedViewState.INITIAL
 ) {
 
     override fun onInteraction(interaction: OrderCompletedInteraction) {

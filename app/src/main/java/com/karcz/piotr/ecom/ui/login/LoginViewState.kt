@@ -1,14 +1,12 @@
 package com.karcz.piotr.ecom.ui.login
 
-data class LoginViewState(
-    val isLoading: Boolean,
-    val isLoginButtonEnabled: Boolean
-) {
+sealed class LoginViewState {
+
+    data class Success(val isLoginButtonEnabled: Boolean) : LoginViewState()
+    object Loading : LoginViewState()
+    object Error : LoginViewState()
 
     companion object {
-        val INITIAL = LoginViewState(
-            isLoading = false,
-            isLoginButtonEnabled = false
-        )
+        val INITIAL = Success(isLoginButtonEnabled = false)
     }
 }
