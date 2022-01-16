@@ -1,6 +1,6 @@
 package com.karcz.piotr.ecom.ui.order
 
-import com.karcz.piotr.ecom.base.ui.BaseViewModel
+import com.karcz.piotr.ecom.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

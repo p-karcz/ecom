@@ -2,7 +2,7 @@ package com.karcz.piotr.ecom.ui.login
 
 import android.text.Editable
 import androidx.lifecycle.viewModelScope
-import com.karcz.piotr.ecom.base.ui.BaseViewModel
+import com.karcz.piotr.ecom.ui.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

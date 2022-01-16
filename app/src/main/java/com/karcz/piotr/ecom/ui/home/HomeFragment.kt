@@ -7,8 +7,8 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.karcz.piotr.ecom.R
-import com.karcz.piotr.ecom.base.ui.BaseStateFragment
-import com.karcz.piotr.ecom.common.ui.ProductsAdapter
+import com.karcz.piotr.ecom.ui.base.BaseStateFragment
+import com.karcz.piotr.ecom.ui.common.ProductsAdapter
 import com.karcz.piotr.ecom.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 

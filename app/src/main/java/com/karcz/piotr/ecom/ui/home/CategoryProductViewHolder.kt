@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.karcz.piotr.ecom.data.ProductDomainModel
+import com.karcz.piotr.ecom.data.domain.ProductDomainModel
 import com.karcz.piotr.ecom.databinding.ListCategoryProductBinding
 
 class CategoryProductViewHolder(private val binding: ListCategoryProductBinding) : RecyclerView.ViewHolder(binding.root) {

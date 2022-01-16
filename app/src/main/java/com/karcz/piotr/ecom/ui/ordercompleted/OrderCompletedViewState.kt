@@ -1,6 +1,6 @@
 package com.karcz.piotr.ecom.ui.ordercompleted
 
-import com.karcz.piotr.ecom.data.OrderDomainModel
+import com.karcz.piotr.ecom.data.domain.OrderDomainModel
 
 sealed class OrderCompletedViewState {
 

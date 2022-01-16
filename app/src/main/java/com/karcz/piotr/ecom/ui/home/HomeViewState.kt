@@ -1,6 +1,6 @@
 package com.karcz.piotr.ecom.ui.home
 
-import com.karcz.piotr.ecom.data.ProductDomainModel
+import com.karcz.piotr.ecom.data.domain.ProductDomainModel
 
 sealed class HomeViewState {
 

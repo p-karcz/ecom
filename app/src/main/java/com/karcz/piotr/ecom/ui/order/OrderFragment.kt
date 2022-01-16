@@ -1,6 +1,6 @@
 package com.karcz.piotr.ecom.ui.order
 
-import com.karcz.piotr.ecom.base.ui.BaseStateFragment
+import com.karcz.piotr.ecom.ui.base.BaseStateFragment
 import com.karcz.piotr.ecom.databinding.FragmentOrderBinding
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.karcz.piotr.ecom.data.ProductDomainModel
+import com.karcz.piotr.ecom.data.domain.ProductDomainModel
 
 class CategoryProductsAdapter : ListAdapter<ProductDomainModel, CategoryProductViewHolder>(
     CategoryProductsDiffer

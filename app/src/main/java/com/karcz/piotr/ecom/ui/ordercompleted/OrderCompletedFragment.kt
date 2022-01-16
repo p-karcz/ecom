@@ -1,6 +1,6 @@
 package com.karcz.piotr.ecom.ui.ordercompleted
 
-import com.karcz.piotr.ecom.base.ui.BaseStateFragment
+import com.karcz.piotr.ecom.ui.base.BaseStateFragment
 import com.karcz.piotr.ecom.databinding.FragmentOrderCompletedBinding
 import dagger.hilt.android.AndroidEntryPoint
 

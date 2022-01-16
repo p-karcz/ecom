@@ -1,6 +1,6 @@
 package com.karcz.piotr.ecom.ui.account
 
-import com.karcz.piotr.ecom.data.CustomerDomainModel
+import com.karcz.piotr.ecom.data.domain.CustomerDomainModel
 
 sealed class AccountViewState {
 

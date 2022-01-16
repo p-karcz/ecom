@@ -9,7 +9,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import com.karcz.piotr.ecom.R
 import androidx.navigation.fragment.findNavController
-import com.karcz.piotr.ecom.base.ui.BaseStateFragment
+import com.karcz.piotr.ecom.ui.base.BaseStateFragment
 import com.karcz.piotr.ecom.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 
