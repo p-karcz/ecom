@@ -4,13 +4,13 @@ import androidx.room.*
 import com.karcz.piotr.ecom.data.entity.ProductEntityModel
 
 @Dao
-abstract class ProductDao {
+interface ProductDao {
 
     @Query("SELECT * FROM productsTable")
-    abstract suspend fun getProducts(): List<ProductEntityModel>
+    suspend fun getProducts(): List<ProductEntityModel>
 
     @Query("SELECT * FROM productsTable WHERE category IN(:categories) AND price > :priceFrom AND price < :priceTo AND producer IN(:producers) AND size IN(:sizes) AND color IN(:colors)")
-    abstract suspend fun getProductsFiltered(
+    suspend fun getProductsFiltered(
         categories: List<String>,
         priceFrom: Double,
         priceTo: Double,
@@ -20,31 +20,31 @@ abstract class ProductDao {
     ): List<ProductEntityModel>
 
     @Query("SELECT * FROM productsTable WHERE id = :id")
-    abstract suspend fun getProduct(id: Int): ProductEntityModel
+    suspend fun getProduct(id: Int): ProductEntityModel
 
     @Query("SELECT * FROM productsTable WHERE productCode = :productCode AND color = :color")
-    abstract suspend fun getOtherSizesForProduct(productCode: Int, color: String): List<ProductEntityModel>
+    suspend fun getOtherSizesForProduct(productCode: Int, color: String): List<ProductEntityModel>
 
     @Query("SELECT category FROM productsTable")
-    abstract suspend fun getCategories(): List<String>
+    suspend fun getCategories(): List<String>
 
     @Query("SELECT producer FROM productsTable")
-    abstract suspend fun getProducers(): List<String>
+    suspend fun getProducers(): List<String>
 
     @Query("SELECT size FROM productsTable")
-    abstract suspend fun getSizes(): List<String>
+    suspend fun getSizes(): List<String>
 
     @Query("SELECT color FROM productsTable")
-    abstract suspend fun getColors(): List<String>
+    suspend fun getColors(): List<String>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertProduct(product: ProductEntityModel)
+    suspend fun insertProduct(product: ProductEntityModel)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insertProducts(products: List<ProductEntityModel>)
+    suspend fun insertProducts(products: List<ProductEntityModel>)
 
     @Query("DELETE FROM productsTable")
-    abstract suspend fun removeProducts()
+    suspend fun removeProducts()
 
     @Transaction
     suspend fun repopulateCache(products: List<ProductEntityModel>) {

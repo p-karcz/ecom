@@ -5,9 +5,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor() : BaseViewModel<HomeViewState, HomeNavigation, HomeInteraction>(
-    HomeViewState.INITIAL
-) {
+class HomeViewModel @Inject constructor(
+
+) : BaseViewModel<HomeViewState, HomeNavigation, HomeInteraction>(HomeViewState.INITIAL) {
 
     override fun onInteraction(interaction: HomeInteraction) {
         when (interaction) {

@@ -3,6 +3,7 @@ package com.karcz.piotr.ecom.data.api
 import com.karcz.piotr.ecom.data.transfer.AddressTransferModel
 import com.karcz.piotr.ecom.data.transfer.CustomerTransferModel
 import com.karcz.piotr.ecom.data.transfer.ServerGenericResponse
+import retrofit2.Response
 import retrofit2.http.*
 
 interface CustomerApi {
@@ -10,28 +11,28 @@ interface CustomerApi {
     @GET("/me")
     suspend fun getCustomer(
         @Header("Authorization") token: String
-    ): CustomerTransferModel
+    ): Response<CustomerTransferModel>
 
     @PUT("/me/update")
     suspend fun updateCustomer(
         @Header("Authorization") token: String,
         @Body customerTransferModel: CustomerTransferModel
-    ): ServerGenericResponse
+    ): Response<ServerGenericResponse>
 
     @DELETE("/me/removeAccount")
     suspend fun removeAccount(
         @Header("Authorization") token: String,
         @Body customerTransferModel: CustomerTransferModel
-    ): ServerGenericResponse
+    ): Response<ServerGenericResponse>
 
     @GET("/me/address")
     suspend fun getAddress(
         @Header("Authorization") token: String
-    ): AddressTransferModel
+    ): Response<AddressTransferModel>
 
     @PUT("/me/address")
     suspend fun updateAddress(
         @Header("Authorization") token: String,
         @Body addressTransferModel: AddressTransferModel
-    ): ServerGenericResponse
+    ): Response<ServerGenericResponse>
 }

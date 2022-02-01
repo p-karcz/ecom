@@ -20,14 +20,22 @@ class AuthorizationRepository @Inject constructor(
     fun register(customerRegistrationDomainModel: CustomerRegistrationDomainModel): Flow<Resource<TokenDomainModel>> {
         return flow {
             emit(Resource.NetworkLoading())
-            try {
-                val token = authorizationApi.register(customerRegistrationDomainModel.toTransferModel()).toDomainModel()
-                if (token != null) {
+
+            val tokenResponse = try {
+                authorizationApi.register(customerRegistrationDomainModel.toTransferModel())
+            } catch (exception: Exception) {
+                emit(Resource.NetworkError())
+                return@flow
+            }
+
+            when {
+                tokenResponse.isSuccessful && tokenResponse.body()?.toDomainModel() != null -> {
+                    val token = tokenResponse.body()!!.toDomainModel()!!
                     userTokenDataStore.saveToken(token.token)
                     emit(Resource.NetworkSuccess(token))
                 }
-            } catch (exception: Exception) {
-                emit(Resource.NetworkError(exception))
+                else ->
+                    emit(Resource.NetworkError())
             }
         }.flowOn(Dispatchers.IO)
     }
@@ -35,15 +43,23 @@ class AuthorizationRepository @Inject constructor(
     fun login(customerLoginDomainModel: CustomerLoginDomainModel): Flow<Resource<TokenDomainModel>> {
         return flow {
             emit(Resource.NetworkLoading())
-            try {
-                val token = authorizationApi.login(customerLoginDomainModel.toTransferModel()).toDomainModel()
-                if (token != null) {
+
+            val tokenResponse = try {
+                authorizationApi.login(customerLoginDomainModel.toTransferModel())
+            } catch (exception: Exception) {
+                emit(Resource.NetworkError())
+                return@flow
+            }
+
+            when {
+                tokenResponse.isSuccessful && tokenResponse.body()?.toDomainModel() != null -> {
+                    val token = tokenResponse.body()!!.toDomainModel()!!
                     userTokenDataStore.saveToken(token.token)
                     emit(Resource.NetworkSuccess(token))
                 }
-            } catch (exception: Exception) {
-                emit(Resource.NetworkError(exception))
+                else ->
+                    emit(Resource.NetworkError())
             }
-        }
+        }.flowOn(Dispatchers.IO)
     }
 }

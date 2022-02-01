@@ -6,7 +6,7 @@ data class AllOrdersTransferModel(
     val orders: List<OrderTransferModel>? = null
 ) {
 
-    fun toDomain(): AllOrdersDomainModel? {
+    fun toDomainModel(): AllOrdersDomainModel? {
         return if (orders == null) {
             null
         } else {

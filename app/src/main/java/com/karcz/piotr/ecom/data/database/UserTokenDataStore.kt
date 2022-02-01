@@ -22,12 +22,11 @@ class UserTokenDataStore @Inject constructor(@ApplicationContext private val con
         }
     }
 
-    suspend fun getToken(): String {
-        return context.datastore.data.first()[TOKEN_KEY] ?: ""
+    suspend fun getToken(): String? {
+        return context.datastore.data.first()[TOKEN_KEY]
     }
 
     companion object {
         val TOKEN_KEY = stringPreferencesKey("token")
-        const val EMPTY_TOKEN = "EMPTY_TOKEN"
     }
 }

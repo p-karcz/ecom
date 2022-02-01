@@ -1,12 +1,15 @@
 package com.karcz.piotr.ecom.data.repository
 
+import com.karcz.piotr.ecom.data.Resource
 import com.karcz.piotr.ecom.data.api.CustomerApi
 import com.karcz.piotr.ecom.data.database.UserTokenDataStore
 import com.karcz.piotr.ecom.data.domain.AddressDomainModel
 import com.karcz.piotr.ecom.data.domain.CustomerDomainModel
-import com.karcz.piotr.ecom.data.transfer.AddressTransferModel
-import com.karcz.piotr.ecom.data.transfer.CustomerTransferModel
 import com.karcz.piotr.ecom.data.transfer.ServerGenericResponse
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class CustomerRepository @Inject constructor(
@@ -14,37 +17,157 @@ class CustomerRepository @Inject constructor(
     private val userTokenDataStore: UserTokenDataStore
 ) {
 
-    suspend fun getCustomer(): CustomerDomainModel? {
-        return customerApi
-            .getCustomer(token = userTokenDataStore.getToken())
-            .toDomainModel()
+    fun getCustomer(): Flow<Resource<CustomerDomainModel>> {
+        return flow {
+            emit(Resource.NetworkLoading())
+
+            val customerResponse = try {
+                val token = userTokenDataStore.getToken()
+                if (token == null) {
+                    emit(Resource.NetworkUnauthorized())
+                    return@flow
+                }
+                customerApi.getCustomer(token)
+            } catch (exception: Exception) {
+                emit(Resource.NetworkError())
+                return@flow
+            }
+
+            when {
+                customerResponse.isSuccessful && customerResponse.body()?.toDomainModel() != null -> {
+                    val customer = customerResponse.body()!!.toDomainModel()!!
+                    emit(Resource.NetworkSuccess(customer))
+                }
+                !customerResponse.isSuccessful && customerResponse.code() == 401 ->
+                    emit(Resource.NetworkUnauthorized())
+                else ->
+                    emit(Resource.NetworkError())
+            }
+        }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun updateCustomer(customerDomainModel: CustomerDomainModel): ServerGenericResponse {
-        val customerTransferModel = customerDomainModel.toTransferModel()
-        return customerApi.updateCustomer(
-            token = userTokenDataStore.getToken(),
-            customerTransferModel = customerTransferModel
-        )
+    fun updateCustomer(customerDomainModel: CustomerDomainModel): Flow<Resource<ServerGenericResponse>> {
+        return flow {
+            emit(Resource.NetworkLoading())
+
+            val customerResponse = try {
+                val token = userTokenDataStore.getToken()
+                if (token == null) {
+                    emit(Resource.NetworkUnauthorized())
+                    return@flow
+                }
+                customerApi.updateCustomer(
+                    token = token,
+                    customerTransferModel = customerDomainModel.toTransferModel()
+                )
+            } catch (exception: Exception) {
+                emit(Resource.NetworkError())
+                return@flow
+            }
+
+            when {
+                customerResponse.isSuccessful && customerResponse.body() != null -> {
+                    val customer = customerResponse.body()!!
+                    emit(Resource.NetworkSuccess(customer))
+                }
+                !customerResponse.isSuccessful && customerResponse.code() == 401 ->
+                    emit(Resource.NetworkUnauthorized())
+                else ->
+                    emit(Resource.NetworkError())
+            }
+        }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun removeAccount(customerDomainModel: CustomerDomainModel): ServerGenericResponse {
-        val customerTransferModel = customerDomainModel.toTransferModel()
-        return customerApi.removeAccount(
-            token = userTokenDataStore.getToken(),
-            customerTransferModel = customerTransferModel
-        )
+    fun removeAccount(customerDomainModel: CustomerDomainModel): Flow<Resource<ServerGenericResponse>> {
+        return flow {
+            emit(Resource.NetworkLoading())
+
+            val customerResponse = try {
+                val token = userTokenDataStore.getToken()
+                if (token == null) {
+                    emit(Resource.NetworkUnauthorized())
+                    return@flow
+                }
+                customerApi.removeAccount(
+                    token = token,
+                    customerTransferModel = customerDomainModel.toTransferModel()
+                )
+            } catch (exception: Exception) {
+                emit(Resource.NetworkError())
+                return@flow
+            }
+
+            when {
+                customerResponse.isSuccessful && customerResponse.body() != null -> {
+                    val customer = customerResponse.body()!!
+                    emit(Resource.NetworkSuccess(customer))
+                }
+                !customerResponse.isSuccessful && customerResponse.code() == 401 ->
+                    emit(Resource.NetworkUnauthorized())
+                else ->
+                    emit(Resource.NetworkError())
+            }
+        }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun getAddress(): AddressTransferModel {
-        return customerApi.getAddress(token = userTokenDataStore.getToken())
+    fun getAddress(): Flow<Resource<AddressDomainModel>> {
+        return flow {
+            emit(Resource.NetworkLoading())
+
+            val addressResponse = try {
+                val token = userTokenDataStore.getToken()
+                if (token == null) {
+                    emit(Resource.NetworkUnauthorized())
+                    return@flow
+                }
+                customerApi.getAddress(token = token)
+            } catch (exception: Exception) {
+                emit(Resource.NetworkError())
+                return@flow
+            }
+
+            when {
+                addressResponse.isSuccessful && addressResponse.body()?.toDomainModel() != null -> {
+                    val address = addressResponse.body()!!.toDomainModel()!!
+                    emit(Resource.NetworkSuccess(address))
+                }
+                !addressResponse.isSuccessful && addressResponse.code() == 401 ->
+                    emit(Resource.NetworkUnauthorized())
+                else ->
+                    emit(Resource.NetworkError())
+            }
+        }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun updateAddress(addressDomainModel: AddressDomainModel): ServerGenericResponse {
-        val addressTransferModel = addressDomainModel.toTransferModel()
-        return customerApi.updateAddress(
-            token = userTokenDataStore.getToken(),
-            addressTransferModel = addressTransferModel
-        )
+    fun updateAddress(addressDomainModel: AddressDomainModel): Flow<Resource<ServerGenericResponse>> {
+        return flow {
+            emit(Resource.NetworkLoading())
+
+            val addressResponse = try {
+                val token = userTokenDataStore.getToken()
+                if (token == null) {
+                    emit(Resource.NetworkUnauthorized())
+                    return@flow
+                }
+                customerApi.updateAddress(
+                    token = token,
+                    addressTransferModel = addressDomainModel.toTransferModel()
+                )
+            } catch (exception: Exception) {
+                emit(Resource.NetworkError())
+                return@flow
+            }
+
+            when {
+                addressResponse.isSuccessful && addressResponse.body() != null -> {
+                    val customer = addressResponse.body()!!
+                    emit(Resource.NetworkSuccess(customer))
+                }
+                !addressResponse.isSuccessful && addressResponse.code() == 401 ->
+                    emit(Resource.NetworkUnauthorized())
+                else ->
+                    emit(Resource.NetworkError())
+            }
+        }.flowOn(Dispatchers.IO)
     }
 }

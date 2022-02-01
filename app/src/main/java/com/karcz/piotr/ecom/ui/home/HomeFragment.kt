@@ -1,15 +1,13 @@
 package com.karcz.piotr.ecom.ui.home
 
-import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.karcz.piotr.ecom.R
+import com.karcz.piotr.ecom.databinding.FragmentHomeBinding
 import com.karcz.piotr.ecom.ui.base.BaseStateFragment
 import com.karcz.piotr.ecom.ui.common.ProductsAdapter
-import com.karcz.piotr.ecom.databinding.FragmentHomeBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -33,8 +31,10 @@ class HomeFragment : BaseStateFragment<FragmentHomeBinding, HomeViewState, HomeN
     override fun handleViewState(viewState: HomeViewState) {
         when(viewState) {
             is HomeViewState.Success -> {}
+            is HomeViewState.CachedSuccess -> {}
             is HomeViewState.Loading -> {}
-            is HomeViewState.Error -> {}
+            is HomeViewState.NetworkError -> {}
+            is HomeViewState.Unauthorized -> {}
         }
     }
 
@@ -45,15 +45,7 @@ class HomeFragment : BaseStateFragment<FragmentHomeBinding, HomeViewState, HomeN
     }
 
     private fun setUpListeners() {
-        binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->
-            when(menuItem.itemId) {
-                R.id.homeMenuItem -> viewModel.onInteraction(HomeInteraction.HomeMenuItemClicked)
-                R.id.cartMenuItem -> viewModel.onInteraction(HomeInteraction.CartMenuItemClicked)
-                R.id.accountMenuItem -> viewModel.onInteraction(HomeInteraction.AccountMenuItemClicked)
-                else -> throw Resources.NotFoundException()
-            }
-            true
-        }
+
     }
 
     private fun setUpRecyclerViews() {
