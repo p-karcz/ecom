@@ -16,12 +16,13 @@
 
     <LinearLayout
         android:id="@+id/categoryActiveContainerView"
-        app:layout_constraintTop_toTopOf="@id/categoryProductTitleTextView"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/categoryProductTitleTextView"
+        android:layout_marginTop="4dp"
         android:orientation="vertical"
         android:layout_width="2dp"
         android:layout_height="2dp"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,15 +6,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.karcz.piotr.ecom.data.domain.ProductDomainModel
 
-class CategoryProductsAdapter : ListAdapter<ProductDomainModel, CategoryProductViewHolder>(
+class CategoryProductsAdapter : ListAdapter<ProductDomainModel, CategoryProductsViewHolder>(
     CategoryProductsDiffer
 ) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryProductViewHolder {
-        return CategoryProductViewHolder.inflate(LayoutInflater.from(parent.context), parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryProductsViewHolder {
+        return CategoryProductsViewHolder.inflate(LayoutInflater.from(parent.context), parent)
     }
 
-    override fun onBindViewHolder(holder: CategoryProductViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CategoryProductsViewHolder, position: Int) {
         holder.onBind(getItem(position))
     }
 

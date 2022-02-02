@@ -1,4 +1,4 @@
-package com.karcz.piotr.ecom.ui.common
+package com.karcz.piotr.ecom.ui.base
 
 import android.view.View
 

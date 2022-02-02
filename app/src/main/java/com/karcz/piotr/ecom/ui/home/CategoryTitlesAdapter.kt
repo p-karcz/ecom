@@ -5,13 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 
-class CategoryTitlesAdapter : ListAdapter<String, CategoryTitleViewHolder>(CategoryDiffer) {
+class CategoryTitlesAdapter : ListAdapter<String, CategoriesTitlesViewHolder>(CategoryDiffer) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryTitleViewHolder {
-        return CategoryTitleViewHolder.inflate(LayoutInflater.from(parent.context), parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoriesTitlesViewHolder {
+        return CategoriesTitlesViewHolder.inflate(LayoutInflater.from(parent.context), parent)
     }
 
-    override fun onBindViewHolder(holder: CategoryTitleViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CategoriesTitlesViewHolder, position: Int) {
         holder.onBind(getItem(position))
     }
 

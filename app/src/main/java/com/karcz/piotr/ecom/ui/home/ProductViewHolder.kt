@@ -1,20 +1,15 @@
-package com.karcz.piotr.ecom.ui.common
+package com.karcz.piotr.ecom.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.karcz.piotr.ecom.data.domain.ProductDomainModel
-import com.karcz.piotr.ecom.databinding.ListProductBinding
+import com.karcz.piotr.ecom.databinding.ListHomeProductBinding
 
-class ProductViewHolder(private val binding: ListProductBinding)
+class ProductViewHolder(private val binding: ListHomeProductBinding)
     : RecyclerView.ViewHolder(binding.root) {
 
     fun onBind(productDomainModel: ProductDomainModel) = with(binding) {
-        Glide.with(root.context)
-            .load(productDomainModel.image)
-            .into(productImageView)
-
         productTitleTextView.text = productDomainModel.name
         productDescriptionTextView.text = productDomainModel.description
         productPriceTextView.text = productDomainModel.price.toString()
@@ -23,7 +18,7 @@ class ProductViewHolder(private val binding: ListProductBinding)
     companion object {
         fun inflate(inflater: LayoutInflater, parent: ViewGroup): ProductViewHolder {
             return ProductViewHolder(
-                ListProductBinding.inflate(inflater, parent, false)
+                ListHomeProductBinding.inflate(inflater, parent, false)
             )
         }
     }
