@@ -13,7 +13,7 @@ class OrdersFragment : BaseStateFragment<FragmentOrdersBinding, OrdersViewState,
         TODO("Not yet implemented")
     }
 
-    override fun handleNavigation(navigation: OrdersNavigation) {
+    override fun handleEvent(event: OrdersNavigation) {
         TODO("Not yet implemented")
     }
 }

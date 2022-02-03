@@ -13,7 +13,7 @@ class ProductFragment : BaseStateFragment<FragmentProductBinding, ProductViewSta
         TODO("Not yet implemented")
     }
 
-    override fun handleNavigation(navigation: ProductNavigation) {
+    override fun handleEvent(event: ProductNavigation) {
         TODO("Not yet implemented")
     }
 }

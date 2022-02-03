@@ -69,10 +69,10 @@ class ProductRepository @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
-    fun getProducts(): Flow<Resource<AllProductsDomainModel>> {
+    fun getProducts(): Flow<Resource<List<ProductDomainModel>>> {
         return flow {
             val cachedProducts = productDao.getProducts().map { it.toDomainModel() }
-            emit(Resource.Cached(AllProductsDomainModel(cachedProducts)))
+            emit(Resource.Cached(cachedProducts))
 
             val productsResponse = try {
                 productApi.getProducts()
@@ -82,9 +82,9 @@ class ProductRepository @Inject constructor(
             }
 
             when {
-                productsResponse.isSuccessful && productsResponse.body()?.toDomainModel() != null -> {
-                    val products = productsResponse.body()!!.toDomainModel()!!
-                    productDao.repopulateCache(products.products.map { it.toEntityModel() })
+                productsResponse.isSuccessful && productsResponse.body() != null -> {
+                    val products = productsResponse.body()!!.mapNotNull { it.toDomainModel() }
+                    productDao.repopulateCache(products.map { it.toEntityModel() })
                     emit(Resource.NetworkSuccess(products))
                 }
                 else ->

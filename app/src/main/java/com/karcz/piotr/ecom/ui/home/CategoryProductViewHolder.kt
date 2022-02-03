@@ -10,9 +10,10 @@ import com.karcz.piotr.ecom.databinding.ListHomeCategoryProductItemBinding
 class CategoryProductViewHolder(private val binding: ListHomeCategoryProductItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun onBind(data: ProductDomainModel) = with(binding) {
-        categoryProductTitleTextView.text = data.category
-        categoryProductPriceTextView.text = binding.root.context.getString(R.string.price, data.price)
+    fun onBind(data: ProductDomainModel, onClick: (Int) -> Unit) = with(binding) {
+        categoryProductTitleTextView.text = data.name
+        categoryProductPriceTextView.text = binding.root.context.getString(R.string.price, data.price.toString())
+        root.setOnClickListener { onClick(data.id) }
     }
 
     companion object {

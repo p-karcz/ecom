@@ -19,7 +19,7 @@ interface ProductApi {
     suspend fun getProductSizes(@Query("productId") productId: Int): Response<AllProductsTransferModel>
 
     @GET("/products")
-    suspend fun getProducts(): Response<AllProductsTransferModel>
+    suspend fun getProducts(): Response<List<ProductTransferModel>>
 
     @POST("/products")
     suspend fun getProducts(@Body productsFilterTransferModel: ProductsFilterTransferModel): Response<AllProductsTransferModel>

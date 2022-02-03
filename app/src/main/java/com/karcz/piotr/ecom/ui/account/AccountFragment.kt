@@ -13,7 +13,7 @@ class AccountFragment : BaseStateFragment<FragmentAccountBinding, AccountViewSta
         TODO("Not yet implemented")
     }
 
-    override fun handleNavigation(navigation: AccountNavigation) {
+    override fun handleEvent(event: AccountNavigation) {
         TODO("Not yet implemented")
     }
 }

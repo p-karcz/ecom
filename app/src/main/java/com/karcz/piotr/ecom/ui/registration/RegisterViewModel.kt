@@ -14,7 +14,7 @@ class RegisterViewModel @Inject constructor() : BaseViewModel<RegisterViewState,
     override fun onInteraction(interaction: RegisterInteraction) {
         when (interaction) {
             is RegisterInteraction.RegisterButtonClicked ->
-                viewModelScope.launch { _navigation.emit(RegisterNavigation.NavigateToLogin) }
+                viewModelScope.launch { _event.emit(RegisterNavigation.NavigateToLogin) }
         }
     }
 }

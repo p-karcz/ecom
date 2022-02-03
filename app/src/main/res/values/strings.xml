@@ -25,7 +25,11 @@
     <string name="bumble">"You think it\'s funny to take screenshots of people\'s NFTs, huh? Property theft is a joke to you? I\'ll have you know that the blockchain doesn\'t lie. I own it. Even if you save it, it's my property. You are mad that you don't own the art that I own.
 Delete that screenshot."</string>
 
-    <string name="price">%1$d$</string>
+    <string name="price">%1$s$</string>
     <string name="network_error">Problem with the internet connection occurred, cached data is displayed.</string>
     <string name="snackbar_ok">OK</string>
+    <string name="home_categories_header">Explore by category</string>
+    <string name="see_all">See all</string>
+    <string name="home_all_products_header">Popular products</string>
+    <string name="short_text">%1$s…</string>
 </resources>

@@ -24,7 +24,7 @@ class LoginFragment : BaseStateFragment<FragmentLoginBinding, LoginViewState, Lo
         super.onViewCreated(view, savedInstanceState)
         setUpOnClickListeners()
         observeViewState(viewModel)
-        observeNavigation(viewModel)
+        observeEvent(viewModel)
     }
 
     private fun setUpOnClickListeners() {
@@ -58,12 +58,12 @@ class LoginFragment : BaseStateFragment<FragmentLoginBinding, LoginViewState, Lo
         }
     }
 
-    override fun handleNavigation(navigation: LoginNavigation) = when (navigation) {
+    override fun handleEvent(event: LoginNavigation) = when (event) {
         is LoginNavigation.NavigateToHome ->
             findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
         is LoginNavigation.NavigateToRegistration ->
             findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
-        is LoginNavigation.ShowToast -> showToast(navigation.text)
+        is LoginNavigation.ShowToast -> showToast(event.text)
     }
 
     private fun showToast(errorMessage: String) =

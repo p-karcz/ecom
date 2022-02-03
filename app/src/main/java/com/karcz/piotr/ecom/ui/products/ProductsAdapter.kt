@@ -1,4 +1,4 @@
-package com.karcz.piotr.ecom.ui.home
+package com.karcz.piotr.ecom.ui.products
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

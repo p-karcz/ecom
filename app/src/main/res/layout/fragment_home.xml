@@ -2,21 +2,25 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background"
+    android:paddingStart="@dimen/fragment_horizontal_padding"
+    android:paddingEnd="@dimen/fragment_horizontal_padding"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/fragment_horizontal_margin"
-        android:layout_marginEnd="@dimen/fragment_horizontal_margin"
         tools:context=".ui.home.HomeFragment" >
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="60dp" />
+            android:layout_height="60dp"
+            android:background="@drawable/white_rounded_background"
+            android:layout_marginTop="@dimen/fragment_inside_vertical_margin"
+            android:layout_marginBottom="@dimen/fragment_inside_vertical_margin"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/categoriesHeaderContainer"
@@ -34,7 +38,8 @@
                 android:textColor="@color/black"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:text="Explore by Category"/>
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@string/home_categories_header"/>
 
             <TextView
                 android:id="@+id/categoriesSeeAllTextView"
@@ -44,21 +49,25 @@
                 android:textColor="@color/gray_600"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:text="See All"/>
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@string/see_all"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/categoriesTitlesRecyclerView"
             app:layout_constraintTop_toBottomOf="@id/categoriesHeaderContainer"
+            android:layout_marginTop="@dimen/fragment_inside_vertical_margin"
             android:layout_width="match_parent"
             android:layout_height="30dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/categoryProductsRecyclerView"
             app:layout_constraintTop_toBottomOf="@+id/categoriesTitlesRecyclerView"
+            android:layout_marginTop="@dimen/fragment_inside_vertical_margin"
+            android:layout_marginBottom="@dimen/fragment_inside_vertical_margin"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:layout_height="wrap_content" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/productsHeaderContainer"
@@ -76,7 +85,8 @@
                 android:textColor="@color/black"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:text="Explore by Category"/>
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@string/home_all_products_header"/>
 
             <TextView
                 android:id="@+id/productsSeeAllTextView"
@@ -86,7 +96,8 @@
                 android:textColor="@color/gray_600"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:text="See All"/>
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@string/see_all"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -94,17 +105,14 @@
             android:id="@+id/productsRecyclerView"
             app:layout_constraintTop_toBottomOf="@id/productsHeaderContainer"
             android:layout_width="match_parent"
-            android:layout_height="0dp" />
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/fragment_inside_vertical_margin"
+            android:layout_marginBottom="@dimen/fragment_inside_vertical_margin" />
 
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="64dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="64dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

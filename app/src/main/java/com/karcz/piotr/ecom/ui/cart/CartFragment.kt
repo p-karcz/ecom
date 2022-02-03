@@ -13,7 +13,7 @@ class CartFragment : BaseStateFragment<FragmentCartBinding, CartViewState, CartN
         TODO("Not yet implemented")
     }
 
-    override fun handleNavigation(navigation: CartNavigation) {
+    override fun handleEvent(event: CartNavigation) {
         TODO("Not yet implemented")
     }
 }

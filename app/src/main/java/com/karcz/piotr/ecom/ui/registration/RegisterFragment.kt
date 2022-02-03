@@ -22,7 +22,7 @@ class RegisterFragment
         super.onViewCreated(view, savedInstanceState)
         setUpOnClickListener()
         observeViewState(viewModel)
-        observeNavigation(viewModel)
+        observeEvent(viewModel)
     }
 
     override fun handleViewState(viewState: RegisterViewState) {
@@ -36,7 +36,7 @@ class RegisterFragment
         }
     }
 
-    override fun handleNavigation(navigation: RegisterNavigation) = when (navigation) {
+    override fun handleEvent(event: RegisterNavigation) = when (event) {
         is RegisterNavigation.NavigateToLogin ->
             findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
     }

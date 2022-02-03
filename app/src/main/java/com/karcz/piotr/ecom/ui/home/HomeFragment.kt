@@ -3,6 +3,7 @@ package com.karcz.piotr.ecom.ui.home
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -12,12 +13,15 @@ import com.karcz.piotr.ecom.ui.base.BaseStateFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment : BaseStateFragment<FragmentHomeBinding, HomeViewState, HomeNavigation, HomeInteraction>(
-    FragmentHomeBinding::inflate
-) {
-    private val productsAdapter: ProductsAdapter = ProductsAdapter()
-    private val categoriesTitlesAdapter: CategoriesTitlesAdapter = CategoriesTitlesAdapter()
-    private val categoryProductsAdapter: CategoryProductsAdapter = CategoryProductsAdapter()
+class HomeFragment :
+    BaseStateFragment<FragmentHomeBinding, HomeViewState, HomeEvent, HomeInteraction>(
+        FragmentHomeBinding::inflate
+    ) {
+    private val productsAdapter: ProductsAdapter = ProductsAdapter(::productOnClick)
+    private val categoriesTitlesAdapter: CategoriesTitlesAdapter =
+        CategoriesTitlesAdapter(::categoryOnClick)
+    private val categoryProductsAdapter: CategoryProductsAdapter =
+        CategoryProductsAdapter(::productOnClick)
 
     private val viewModel: HomeViewModel by viewModels()
 
@@ -25,16 +29,11 @@ class HomeFragment : BaseStateFragment<FragmentHomeBinding, HomeViewState, HomeN
         setUpRecyclerViews()
         setUpListeners()
         observeViewState(viewModel)
-        observeNavigation(viewModel)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.onInteraction(HomeInteraction.ScreenEntered)
+        observeEvent(viewModel)
     }
 
     override fun handleViewState(viewState: HomeViewState) {
-        when(viewState) {
+        when (viewState) {
             is HomeViewState.Success -> {
                 binding.progressBar.visibility = View.GONE
                 productsAdapter.submitList(viewState.products)
@@ -46,11 +45,6 @@ class HomeFragment : BaseStateFragment<FragmentHomeBinding, HomeViewState, HomeN
                 productsAdapter.submitList(viewState.products)
                 categoriesTitlesAdapter.submitList(viewState.categories)
                 categoryProductsAdapter.submitList(viewState.categoryProducts)
-
-                Snackbar.make(binding.root, R.string.network_error, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(R.string.snackbar_ok) {}
-                    .setAnchorView(R.id.bottomNavigationView)
-                    .show()
             }
             is HomeViewState.Loading -> {
                 binding.progressBar.visibility = View.VISIBLE
@@ -58,14 +52,44 @@ class HomeFragment : BaseStateFragment<FragmentHomeBinding, HomeViewState, HomeN
         }
     }
 
-    override fun handleNavigation(navigation: HomeNavigation) {
-        when(navigation) {
-
+    override fun handleEvent(event: HomeEvent) {
+        when (event) {
+            is HomeEvent.NavigateToProductFragment -> {
+                val action =
+                    HomeFragmentDirections.actionHomeFragmentToProductFragment(event.id)
+                findNavController().navigate(action)
+            }
+            is HomeEvent.NavigateToProductsFragment -> {
+                val action =
+                    HomeFragmentDirections.actionHomeFragmentToProductsFragment(event.category)
+                findNavController().navigate(action)
+            }
+            HomeEvent.InternetError -> {
+                Snackbar.make(binding.root, R.string.network_error, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.snackbar_ok) {}
+                    .setAnchorView(R.id.bottomNavigationView)
+                    .show()
+            }
         }
     }
 
-    private fun setUpListeners() {
+    private fun categoryOnClick(category: Pair<String, Boolean>) {
+        viewModel.onInteraction(HomeInteraction.CategoryTitleClicked(category))
+    }
 
+    private fun productOnClick(id: Int) {
+        viewModel.onInteraction(HomeInteraction.ProductClicked(id))
+    }
+
+    private fun setUpListeners() {
+        with(binding) {
+            categoriesSeeAllTextView.setOnClickListener {
+                viewModel.onInteraction(HomeInteraction.SeeAllProductsCategoryClicked)
+            }
+            productsSeeAllTextView.setOnClickListener {
+                viewModel.onInteraction(HomeInteraction.SeeAllProductsClicked)
+            }
+        }
     }
 
     private fun setUpRecyclerViews() {

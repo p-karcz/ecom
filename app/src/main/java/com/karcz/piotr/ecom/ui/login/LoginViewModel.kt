@@ -18,9 +18,9 @@ class LoginViewModel @Inject constructor() : BaseViewModel<LoginViewState, Login
     override fun onInteraction(interaction: LoginInteraction) {
         when (interaction) {
             is LoginInteraction.LoginButtonClicked ->
-                viewModelScope.launch { _navigation.emit(LoginNavigation.NavigateToHome) }
+                viewModelScope.launch { _event.emit(LoginNavigation.NavigateToHome) }
             is LoginInteraction.RegisterButtonClicked ->
-                viewModelScope.launch { _navigation.emit(LoginNavigation.NavigateToRegistration) }
+                viewModelScope.launch { _event.emit(LoginNavigation.NavigateToRegistration) }
             is LoginInteraction.EmailFieldChanged -> validateEmailInput(interaction.text)
             is LoginInteraction.PasswordFieldChanged -> validatePasswordInput(interaction.text)
         }
