@@ -15,7 +15,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    private const val BASE_URL = "http://0.0.0.0/"
+    private const val BASE_URL = "http://4a75-78-10-211-109.ngrok.io/"
     private val converterFactory = GsonConverterFactory.create(GsonBuilder().create())
 
     private val retrofit = Retrofit.Builder()

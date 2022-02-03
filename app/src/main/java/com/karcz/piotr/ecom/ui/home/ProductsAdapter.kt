@@ -6,19 +6,17 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.karcz.piotr.ecom.data.domain.ProductDomainModel
 
-class CategoryProductsAdapter : ListAdapter<ProductDomainModel, CategoryProductViewHolder>(
-    CategoryProductsDiffer
-) {
+class ProductsAdapter : ListAdapter<ProductDomainModel, ProductViewHolder>(ProductsDiffer) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryProductViewHolder {
-        return CategoryProductViewHolder.inflate(LayoutInflater.from(parent.context), parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
+        return ProductViewHolder.inflate(LayoutInflater.from(parent.context), parent)
     }
 
-    override fun onBindViewHolder(holder: CategoryProductViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         holder.onBind(getItem(position))
     }
 
-    object CategoryProductsDiffer : DiffUtil.ItemCallback<ProductDomainModel>() {
+    object ProductsDiffer : DiffUtil.ItemCallback<ProductDomainModel>() {
         override fun areItemsTheSame(oldItem: ProductDomainModel, newItem: ProductDomainModel) =
             oldItem::class == newItem::class
 

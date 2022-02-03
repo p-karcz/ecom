@@ -2,15 +2,28 @@ package com.karcz.piotr.ecom.ui.home
 
 import com.karcz.piotr.ecom.data.domain.ProductDomainModel
 
-sealed class HomeViewState {
+sealed class HomeViewState(
+    val products: List<ProductDomainModel>,
+    val categories: List<Pair<String, Boolean>>,
+    val categoryProducts: List<ProductDomainModel>
+) {
 
-    data class Success(val productDomains: List<ProductDomainModel>) : HomeViewState()
-    data class CachedSuccess(val productDomains: List<ProductDomainModel>) : HomeViewState()
-    object Loading : HomeViewState()
-    object NetworkError : HomeViewState()
-    object Unauthorized : HomeViewState()
+    class Success(
+        products: List<ProductDomainModel>,
+        categories: List<Pair<String, Boolean>>,
+        categoryProducts: List<ProductDomainModel>
+    ) :
+        HomeViewState(products, categories, categoryProducts)
+
+    object Loading : HomeViewState(emptyList(), emptyList(), emptyList())
+    class NetworkError(
+        products: List<ProductDomainModel>,
+        categories: List<Pair<String, Boolean>>,
+        categoryProducts: List<ProductDomainModel>
+    ) :
+        HomeViewState(products, categories, categoryProducts)
 
     companion object {
-        val INITIAL = Success(productDomains = emptyList())
+        val INITIAL = Loading
     }
 }

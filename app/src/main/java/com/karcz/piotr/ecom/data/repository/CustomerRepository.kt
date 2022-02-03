@@ -19,8 +19,6 @@ class CustomerRepository @Inject constructor(
 
     fun getCustomer(): Flow<Resource<CustomerDomainModel>> {
         return flow {
-            emit(Resource.NetworkLoading())
-
             val customerResponse = try {
                 val token = userTokenDataStore.getToken()
                 if (token == null) {
@@ -48,8 +46,6 @@ class CustomerRepository @Inject constructor(
 
     fun updateCustomer(customerDomainModel: CustomerDomainModel): Flow<Resource<ServerGenericResponse>> {
         return flow {
-            emit(Resource.NetworkLoading())
-
             val customerResponse = try {
                 val token = userTokenDataStore.getToken()
                 if (token == null) {
@@ -80,8 +76,6 @@ class CustomerRepository @Inject constructor(
 
     fun removeAccount(customerDomainModel: CustomerDomainModel): Flow<Resource<ServerGenericResponse>> {
         return flow {
-            emit(Resource.NetworkLoading())
-
             val customerResponse = try {
                 val token = userTokenDataStore.getToken()
                 if (token == null) {
@@ -112,8 +106,6 @@ class CustomerRepository @Inject constructor(
 
     fun getAddress(): Flow<Resource<AddressDomainModel>> {
         return flow {
-            emit(Resource.NetworkLoading())
-
             val addressResponse = try {
                 val token = userTokenDataStore.getToken()
                 if (token == null) {
@@ -141,8 +133,6 @@ class CustomerRepository @Inject constructor(
 
     fun updateAddress(addressDomainModel: AddressDomainModel): Flow<Resource<ServerGenericResponse>> {
         return flow {
-            emit(Resource.NetworkLoading())
-
             val addressResponse = try {
                 val token = userTokenDataStore.getToken()
                 if (token == null) {

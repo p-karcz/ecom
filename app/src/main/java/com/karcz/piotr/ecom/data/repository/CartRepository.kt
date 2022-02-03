@@ -19,8 +19,6 @@ class CartRepository @Inject constructor(
 
     fun getCartProducts(): Flow<Resource<AllCartsDomainModel>> {
         return flow {
-            emit(Resource.NetworkLoading())
-
             val cartResponse = try {
                 val token = userTokenDataStore.getToken()
                 if (token == null) {
@@ -48,8 +46,6 @@ class CartRepository @Inject constructor(
 
     fun addProductsToCart(cartDomainModel: CartDomainModel): Flow<Resource<ServerGenericResponse>> {
         return flow {
-            emit(Resource.NetworkLoading())
-
             val cartResponse = try {
                 val token = userTokenDataStore.getToken()
                 if (token == null) {
@@ -80,8 +76,6 @@ class CartRepository @Inject constructor(
 
     fun deleteItemFromCart(cartDomainModel: CartDomainModel): Flow<Resource<ServerGenericResponse>> {
         return flow {
-            emit(Resource.NetworkLoading())
-
             val cartResponse = try {
                 val token = userTokenDataStore.getToken()
                 if (token == null) {
@@ -112,8 +106,6 @@ class CartRepository @Inject constructor(
 
     fun updateItemInCart(cartDomainModel: CartDomainModel): Flow<Resource<ServerGenericResponse>> {
         return flow {
-            emit(Resource.NetworkLoading())
-
             val cartResponse = try {
                 val token = userTokenDataStore.getToken()
                 if (token == null) {

@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
+import com.karcz.piotr.ecom.R
 import com.karcz.piotr.ecom.databinding.FragmentHomeBinding
 import com.karcz.piotr.ecom.ui.base.BaseStateFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -12,7 +15,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeFragment : BaseStateFragment<FragmentHomeBinding, HomeViewState, HomeNavigation, HomeInteraction>(
     FragmentHomeBinding::inflate
 ) {
-    private val homeAdapter: HomeAdapter = HomeAdapter()
+    private val productsAdapter: ProductsAdapter = ProductsAdapter()
+    private val categoriesTitlesAdapter: CategoriesTitlesAdapter = CategoriesTitlesAdapter()
+    private val categoryProductsAdapter: CategoryProductsAdapter = CategoryProductsAdapter()
 
     private val viewModel: HomeViewModel by viewModels()
 
@@ -23,13 +28,33 @@ class HomeFragment : BaseStateFragment<FragmentHomeBinding, HomeViewState, HomeN
         observeNavigation(viewModel)
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.onInteraction(HomeInteraction.ScreenEntered)
+    }
+
     override fun handleViewState(viewState: HomeViewState) {
         when(viewState) {
-            is HomeViewState.Success -> {}
-            is HomeViewState.CachedSuccess -> {}
-            is HomeViewState.Loading -> {}
-            is HomeViewState.NetworkError -> {}
-            is HomeViewState.Unauthorized -> {}
+            is HomeViewState.Success -> {
+                binding.progressBar.visibility = View.GONE
+                productsAdapter.submitList(viewState.products)
+                categoriesTitlesAdapter.submitList(viewState.categories)
+                categoryProductsAdapter.submitList(viewState.categoryProducts)
+            }
+            is HomeViewState.NetworkError -> {
+                binding.progressBar.visibility = View.GONE
+                productsAdapter.submitList(viewState.products)
+                categoriesTitlesAdapter.submitList(viewState.categories)
+                categoryProductsAdapter.submitList(viewState.categoryProducts)
+
+                Snackbar.make(binding.root, R.string.network_error, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.snackbar_ok) {}
+                    .setAnchorView(R.id.bottomNavigationView)
+                    .show()
+            }
+            is HomeViewState.Loading -> {
+                binding.progressBar.visibility = View.VISIBLE
+            }
         }
     }
 
@@ -45,8 +70,21 @@ class HomeFragment : BaseStateFragment<FragmentHomeBinding, HomeViewState, HomeN
 
     private fun setUpRecyclerViews() {
         with(binding) {
-            recyclerView.adapter = homeAdapter
-            recyclerView.layoutManager = GridLayoutManager(context, 2)
+            productsRecyclerView.adapter = productsAdapter
+            productsRecyclerView.layoutManager =
+                GridLayoutManager(context, SPAN_COUNT, GridLayoutManager.VERTICAL, false)
+
+            categoryProductsRecyclerView.adapter = categoryProductsAdapter
+            categoryProductsRecyclerView.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+            categoriesTitlesRecyclerView.adapter = categoriesTitlesAdapter
+            categoriesTitlesRecyclerView.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }
+    }
+
+    companion object {
+        const val SPAN_COUNT = 2
     }
 }

@@ -106,7 +106,7 @@ class ProductRepository @Inject constructor(
             emit(Resource.Cached(AllProductsDomainModel(cachedProducts)))
 
             val productsResponse = try {
-                productApi.getProducts()
+                productApi.getProducts(productsFilterDomainModel.toTransferModel())
             } catch (exception: Exception) {
                 emit(Resource.NetworkError())
                 return@flow

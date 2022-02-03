@@ -6,7 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.karcz.piotr.ecom.R
 import com.karcz.piotr.ecom.ui.base.BaseStateFragment
-import com.karcz.piotr.ecom.ui.common.visibleOrGone
+import com.karcz.piotr.ecom.ui.base.visibleOrGone
 import com.karcz.piotr.ecom.databinding.FragmentRegistrationBinding
 import dagger.hilt.android.AndroidEntryPoint
 

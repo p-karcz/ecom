@@ -20,8 +20,6 @@ class OrdersRepository @Inject constructor(
 
     fun getOrders(): Flow<Resource<AllOrdersDomainModel>> {
         return flow {
-            emit(Resource.NetworkLoading())
-
             val ordersResponse = try {
                 val token = userTokenDataStore.getToken()
                 if (token == null) {
@@ -49,8 +47,6 @@ class OrdersRepository @Inject constructor(
 
     fun addOrder(allOrderDetailsDomainModel: AllOrderDetailsDomainModel): Flow<Resource<ServerGenericResponse>> {
         return flow {
-            emit(Resource.NetworkLoading())
-
             val orderResponse = try {
                 val token = userTokenDataStore.getToken()
                 if (token == null) {
@@ -81,8 +77,6 @@ class OrdersRepository @Inject constructor(
 
     fun getOrder(orderId: Int): Flow<Resource<AllOrderDetailsWithProductsDomainModel>> {
         return flow {
-            emit(Resource.NetworkLoading())
-
             val orderResponse = try {
                 val token = userTokenDataStore.getToken()
                 if (token == null) {

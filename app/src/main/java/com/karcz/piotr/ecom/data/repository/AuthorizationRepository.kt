@@ -19,8 +19,6 @@ class AuthorizationRepository @Inject constructor(
 
     fun register(customerRegistrationDomainModel: CustomerRegistrationDomainModel): Flow<Resource<TokenDomainModel>> {
         return flow {
-            emit(Resource.NetworkLoading())
-
             val tokenResponse = try {
                 authorizationApi.register(customerRegistrationDomainModel.toTransferModel())
             } catch (exception: Exception) {
@@ -42,8 +40,6 @@ class AuthorizationRepository @Inject constructor(
 
     fun login(customerLoginDomainModel: CustomerLoginDomainModel): Flow<Resource<TokenDomainModel>> {
         return flow {
-            emit(Resource.NetworkLoading())
-
             val tokenResponse = try {
                 authorizationApi.login(customerLoginDomainModel.toTransferModel())
             } catch (exception: Exception) {
