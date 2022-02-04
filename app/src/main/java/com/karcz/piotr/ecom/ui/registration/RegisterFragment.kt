@@ -6,15 +6,16 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.karcz.piotr.ecom.R
 import com.karcz.piotr.ecom.ui.base.BaseStateFragment
-import com.karcz.piotr.ecom.ui.base.visibleOrGone
 import com.karcz.piotr.ecom.databinding.FragmentRegistrationBinding
+import com.karcz.piotr.ecom.ui.base.displaySnackBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class RegisterFragment
-    : BaseStateFragment<FragmentRegistrationBinding, RegisterViewState, RegisterNavigation, RegisterInteraction>(
-    FragmentRegistrationBinding::inflate
-) {
+    :
+    BaseStateFragment<FragmentRegistrationBinding, RegisterViewState, RegisterEvent, RegisterInteraction>(
+        FragmentRegistrationBinding::inflate
+    ) {
 
     private val viewModel: RegisterViewModel by viewModels()
 
@@ -28,22 +29,43 @@ class RegisterFragment
     override fun handleViewState(viewState: RegisterViewState) {
         when (viewState) {
             is RegisterViewState.Success -> {
-                binding.loadingProgressBar.visibleOrGone(viewState.isRegisterButtonEnabled)
-                binding.registerButton.isEnabled = viewState.isRegisterButtonEnabled
+                binding.progressBar.visibility = View.GONE
             }
-            is RegisterViewState.Loading -> { }
-            is RegisterViewState.Error -> { }
+            is RegisterViewState.Loading -> {
+                binding.progressBar.visibility = View.VISIBLE
+            }
         }
     }
 
-    override fun handleEvent(event: RegisterNavigation) = when (event) {
-        is RegisterNavigation.NavigateToLogin ->
-            findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
+    override fun handleEvent(event: RegisterEvent) {
+        when (event) {
+            is RegisterEvent.NavigateToLogin -> findNavController().popBackStack()
+            is RegisterEvent.Error -> displaySnackBar(
+                binding.root,
+                R.string.registration_error,
+                requireContext().getColor(R.color.error)
+            )
+        }
     }
 
     private fun setUpOnClickListener() {
-        binding.registerButton.setOnClickListener {
-            viewModel.onInteraction(RegisterInteraction.RegisterButtonClicked)
+        with(binding) {
+            registerButton.setOnClickListener {
+                viewModel.onInteraction(
+                    RegisterInteraction.RegisterButtonClicked(
+                        email = emailEditText.text.toString(),
+                        password = passwordEditText.text.toString(),
+                        name = nameEditText.text.toString(),
+                        surname = surnameEditText.text.toString(),
+                        street = streetEditText.text.toString(),
+                        streetNumber = streetNumberEditText.text.toString(),
+                        flatNumber = flatNumberEditText.text.toString(),
+                        postalCode = postalCodeEditText.text.toString(),
+                        country = countryEditText.text.toString(),
+                        city = cityEditText.text.toString()
+                    )
+                )
+            }
         }
     }
 }

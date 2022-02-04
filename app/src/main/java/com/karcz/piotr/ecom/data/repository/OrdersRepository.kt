@@ -23,7 +23,7 @@ class OrdersRepository @Inject constructor(
             val ordersResponse = try {
                 val token = userTokenDataStore.getToken()
                 if (token == null) {
-                    emit(Resource.NetworkUnauthorized())
+                    emit(Resource.NetworkUnauthenticated())
                     return@flow
                 }
                 ordersApi.getOrders(token = token)
@@ -38,7 +38,7 @@ class OrdersRepository @Inject constructor(
                     emit(Resource.NetworkSuccess(customer))
                 }
                 !ordersResponse.isSuccessful && ordersResponse.code() == 401 ->
-                    emit(Resource.NetworkUnauthorized())
+                    emit(Resource.NetworkUnauthenticated())
                 else ->
                     emit(Resource.NetworkError())
             }
@@ -50,7 +50,7 @@ class OrdersRepository @Inject constructor(
             val orderResponse = try {
                 val token = userTokenDataStore.getToken()
                 if (token == null) {
-                    emit(Resource.NetworkUnauthorized())
+                    emit(Resource.NetworkUnauthenticated())
                     return@flow
                 }
                 ordersApi.addOrder(
@@ -68,7 +68,7 @@ class OrdersRepository @Inject constructor(
                     emit(Resource.NetworkSuccess(order))
                 }
                 !orderResponse.isSuccessful && orderResponse.code() == 401 ->
-                    emit(Resource.NetworkUnauthorized())
+                    emit(Resource.NetworkUnauthenticated())
                 else ->
                     emit(Resource.NetworkError())
             }
@@ -80,7 +80,7 @@ class OrdersRepository @Inject constructor(
             val orderResponse = try {
                 val token = userTokenDataStore.getToken()
                 if (token == null) {
-                    emit(Resource.NetworkUnauthorized())
+                    emit(Resource.NetworkUnauthenticated())
                     return@flow
                 }
                 ordersApi.getOrder(
@@ -98,7 +98,7 @@ class OrdersRepository @Inject constructor(
                     emit(Resource.NetworkSuccess(customer))
                 }
                 !orderResponse.isSuccessful && orderResponse.code() == 401 ->
-                    emit(Resource.NetworkUnauthorized())
+                    emit(Resource.NetworkUnauthenticated())
                 else ->
                     emit(Resource.NetworkError())
             }

@@ -41,18 +41,33 @@
             app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
 
         <EditText
-            android:id="@+id/repeatPasswordEditText"
+            android:id="@+id/nameEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="48dp"
             android:layout_marginEnd="24dp"
-            android:hint="@string/prompt_repeat_password"
+            android:hint="@string/prompt_name"
             android:imeOptions="actionNext"
-            android:inputType="textPassword"
+            android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
+
+        <EditText
+            android:id="@+id/surnameEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="24dp"
+            android:hint="@string/prompt_surname"
+            android:imeOptions="actionNext"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nameEditText" />
+
 
         <EditText
             android:id="@+id/countryEditText"
@@ -66,7 +81,7 @@
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/repeatPasswordEditText" />
+            app:layout_constraintTop_toBottomOf="@+id/surnameEditText" />
 
         <EditText
             android:id="@+id/cityEditText"
@@ -111,6 +126,20 @@
             app:layout_constraintTop_toBottomOf="@+id/postalCodeEditText" />
 
         <EditText
+            android:id="@+id/streetNumberEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="24dp"
+            android:hint="@string/prompt_street_number"
+            android:imeOptions="actionNext"
+            android:inputType="numberDecimal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/streetEditText" />
+
+        <EditText
             android:id="@+id/flatNumberEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -122,7 +151,7 @@
             android:inputType="numberDecimal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/streetEditText" />
+            app:layout_constraintTop_toBottomOf="@+id/streetNumberEditText" />
 
         <Button
             android:id="@+id/registerButton"
@@ -140,7 +169,7 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <ProgressBar
-            android:id="@+id/loadingProgressBar"
+            android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

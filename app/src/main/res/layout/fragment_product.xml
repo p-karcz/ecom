@@ -5,14 +5,13 @@
     android:background="@color/background"
     android:paddingHorizontal="@dimen/fragment_horizontal_padding"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".ui.product.ProductFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/background"
-        android:fillViewport="true"
-        tools:context=".ui.product.ProductFragment">
+        android:layout_height="wrap_content" >
 
         <ImageView
             android:id="@+id/productImageView"

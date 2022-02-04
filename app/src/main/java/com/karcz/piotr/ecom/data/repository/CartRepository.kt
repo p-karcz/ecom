@@ -22,7 +22,7 @@ class CartRepository @Inject constructor(
             val cartResponse = try {
                 val token = userTokenDataStore.getToken()
                 if (token == null) {
-                    emit(Resource.NetworkUnauthorized())
+                    emit(Resource.NetworkUnauthenticated())
                     return@flow
                 }
                 cartApi.getCartProducts(token)
@@ -37,7 +37,7 @@ class CartRepository @Inject constructor(
                     emit(Resource.NetworkSuccess(cart))
                 }
                 !cartResponse.isSuccessful && cartResponse.code() == 401 ->
-                    emit(Resource.NetworkUnauthorized())
+                    emit(Resource.NetworkUnauthenticated())
                 else ->
                     emit(Resource.NetworkError())
             }
@@ -49,7 +49,7 @@ class CartRepository @Inject constructor(
             val cartResponse = try {
                 val token = userTokenDataStore.getToken()
                 if (token == null) {
-                    emit(Resource.NetworkUnauthorized())
+                    emit(Resource.NetworkUnauthenticated())
                     return@flow
                 }
                 cartApi.addProductsToCart(
@@ -67,7 +67,7 @@ class CartRepository @Inject constructor(
                     emit(Resource.NetworkSuccess(cart))
                 }
                 !cartResponse.isSuccessful && cartResponse.code() == 401 ->
-                    emit(Resource.NetworkUnauthorized())
+                    emit(Resource.NetworkUnauthenticated())
                 else ->
                     emit(Resource.NetworkError())
             }
@@ -79,7 +79,7 @@ class CartRepository @Inject constructor(
             val cartResponse = try {
                 val token = userTokenDataStore.getToken()
                 if (token == null) {
-                    emit(Resource.NetworkUnauthorized())
+                    emit(Resource.NetworkUnauthenticated())
                     return@flow
                 }
                 cartApi.deleteItemFromCart(
@@ -97,7 +97,7 @@ class CartRepository @Inject constructor(
                     emit(Resource.NetworkSuccess(cart))
                 }
                 !cartResponse.isSuccessful && cartResponse.code() == 401 ->
-                    emit(Resource.NetworkUnauthorized())
+                    emit(Resource.NetworkUnauthenticated())
                 else ->
                     emit(Resource.NetworkError())
             }
@@ -109,7 +109,7 @@ class CartRepository @Inject constructor(
             val cartResponse = try {
                 val token = userTokenDataStore.getToken()
                 if (token == null) {
-                    emit(Resource.NetworkUnauthorized())
+                    emit(Resource.NetworkUnauthenticated())
                     return@flow
                 }
                 cartApi.updateItemInCart(
@@ -127,7 +127,7 @@ class CartRepository @Inject constructor(
                     emit(Resource.NetworkSuccess(cart))
                 }
                 !cartResponse.isSuccessful && cartResponse.code() == 401 ->
-                    emit(Resource.NetworkUnauthorized())
+                    emit(Resource.NetworkUnauthenticated())
                 else ->
                     emit(Resource.NetworkError())
             }

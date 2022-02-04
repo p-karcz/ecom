@@ -6,8 +6,6 @@ import com.karcz.piotr.ecom.data.domain.CartDomainModel
 import com.karcz.piotr.ecom.data.repository.CartRepository
 import com.karcz.piotr.ecom.data.repository.ProductRepository
 import com.karcz.piotr.ecom.ui.base.BaseViewModel
-import com.karcz.piotr.ecom.ui.products.ProductsEvent
-import com.karcz.piotr.ecom.ui.products.ProductsViewState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
@@ -47,7 +45,7 @@ class ProductViewModel @AssistedInject constructor(
                             _event.emit(ProductEvent.AddToCartNetworkError)
                         }
                     }
-                    is Resource.NetworkUnauthorized -> _event.emit(ProductEvent.AuthorizationRequired)
+                    is Resource.NetworkUnauthenticated -> _event.emit(ProductEvent.AuthorizationRequired)
                     else -> {
                         throw IllegalStateException("Unexpected Resource type: ${resourceResponse.javaClass}")
                     }

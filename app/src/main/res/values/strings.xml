@@ -3,11 +3,14 @@
 
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
+    <string name="prompt_name">Name</string>
+    <string name="prompt_surname">Surname</string>
     <string name="prompt_repeat_password">Repeat password</string>
     <string name="prompt_country">Country</string>
     <string name="prompt_city">City</string>
     <string name="prompt_postal_code">Postal code</string>
     <string name="prompt_street">Street</string>
+    <string name="prompt_street_number">Street number</string>
     <string name="prompt_flat_number">Flat number</string>
 
     <string name="action_sign_in">Sign in</string>
@@ -30,10 +33,12 @@ Delete that screenshot."</string>
     <string name="authorization_required">To do this action you have to sign in.</string>
     <string name="product_added_to_cart">Product was successfully added to cart.</string>
     <string name="add_to_cart_network_error">Network error occurred while adding product to cart.</string>
+    <string name="registration_error">Make sure you have network connection and provided data is correct.</string>
     <string name="snackbar_ok">OK</string>
     <string name="home_categories_header">Explore by category</string>
     <string name="see_all">See all</string>
     <string name="home_all_products_header">Popular products</string>
     <string name="short_text">%1$s…</string>
     <string name="add_to_cart">Add to cart</string>
+    <string name="try_again">Try again</string>
 </resources>

@@ -14,9 +14,10 @@ import com.karcz.piotr.ecom.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LoginFragment : BaseStateFragment<FragmentLoginBinding, LoginViewState, LoginNavigation, LoginInteraction>(
-    FragmentLoginBinding::inflate
-) {
+class LoginFragment :
+    BaseStateFragment<FragmentLoginBinding, LoginViewState, LoginNavigation, LoginInteraction>(
+        FragmentLoginBinding::inflate
+    ) {
 
     private val viewModel: LoginViewModel by viewModels()
 
@@ -47,23 +48,25 @@ class LoginFragment : BaseStateFragment<FragmentLoginBinding, LoginViewState, Lo
         viewModel.onInteraction(LoginInteraction.PasswordFieldChanged(text))
 
     override fun handleViewState(viewState: LoginViewState) {
-        when(viewState) {
+        when (viewState) {
             is LoginViewState.Success -> {
                 binding.loadingProgressBar.isVisible = false
                 binding.loginButton.isEnabled = viewState.isLoginButtonEnabled
             }
             is LoginViewState.Loading ->
                 binding.loadingProgressBar.isVisible = true
-            is LoginViewState.Error -> { }
+            is LoginViewState.Error -> {}
         }
     }
 
-    override fun handleEvent(event: LoginNavigation) = when (event) {
-        is LoginNavigation.NavigateToHome ->
-            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-        is LoginNavigation.NavigateToRegistration ->
-            findNavController().navigate(R.id.action_loginFragment_to_registrationFragment)
-        is LoginNavigation.ShowToast -> showToast(event.text)
+    override fun handleEvent(event: LoginNavigation) {
+        when (event) {
+            is LoginNavigation.NavigateToHome ->
+                findNavController().popBackStack()
+            is LoginNavigation.NavigateToRegistration ->
+                findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+            is LoginNavigation.ShowToast -> showToast(event.text)
+        }
     }
 
     private fun showToast(errorMessage: String) =

@@ -22,7 +22,7 @@ class CustomerRepository @Inject constructor(
             val customerResponse = try {
                 val token = userTokenDataStore.getToken()
                 if (token == null) {
-                    emit(Resource.NetworkUnauthorized())
+                    emit(Resource.NetworkUnauthenticated())
                     return@flow
                 }
                 customerApi.getCustomer(token)
@@ -37,7 +37,7 @@ class CustomerRepository @Inject constructor(
                     emit(Resource.NetworkSuccess(customer))
                 }
                 !customerResponse.isSuccessful && customerResponse.code() == 401 ->
-                    emit(Resource.NetworkUnauthorized())
+                    emit(Resource.NetworkUnauthenticated())
                 else ->
                     emit(Resource.NetworkError())
             }
@@ -49,7 +49,7 @@ class CustomerRepository @Inject constructor(
             val customerResponse = try {
                 val token = userTokenDataStore.getToken()
                 if (token == null) {
-                    emit(Resource.NetworkUnauthorized())
+                    emit(Resource.NetworkUnauthenticated())
                     return@flow
                 }
                 customerApi.updateCustomer(
@@ -67,7 +67,7 @@ class CustomerRepository @Inject constructor(
                     emit(Resource.NetworkSuccess(customer))
                 }
                 !customerResponse.isSuccessful && customerResponse.code() == 401 ->
-                    emit(Resource.NetworkUnauthorized())
+                    emit(Resource.NetworkUnauthenticated())
                 else ->
                     emit(Resource.NetworkError())
             }
@@ -79,7 +79,7 @@ class CustomerRepository @Inject constructor(
             val customerResponse = try {
                 val token = userTokenDataStore.getToken()
                 if (token == null) {
-                    emit(Resource.NetworkUnauthorized())
+                    emit(Resource.NetworkUnauthenticated())
                     return@flow
                 }
                 customerApi.removeAccount(
@@ -97,7 +97,7 @@ class CustomerRepository @Inject constructor(
                     emit(Resource.NetworkSuccess(customer))
                 }
                 !customerResponse.isSuccessful && customerResponse.code() == 401 ->
-                    emit(Resource.NetworkUnauthorized())
+                    emit(Resource.NetworkUnauthenticated())
                 else ->
                     emit(Resource.NetworkError())
             }
@@ -109,7 +109,7 @@ class CustomerRepository @Inject constructor(
             val addressResponse = try {
                 val token = userTokenDataStore.getToken()
                 if (token == null) {
-                    emit(Resource.NetworkUnauthorized())
+                    emit(Resource.NetworkUnauthenticated())
                     return@flow
                 }
                 customerApi.getAddress(token = token)
@@ -124,7 +124,7 @@ class CustomerRepository @Inject constructor(
                     emit(Resource.NetworkSuccess(address))
                 }
                 !addressResponse.isSuccessful && addressResponse.code() == 401 ->
-                    emit(Resource.NetworkUnauthorized())
+                    emit(Resource.NetworkUnauthenticated())
                 else ->
                     emit(Resource.NetworkError())
             }
@@ -136,7 +136,7 @@ class CustomerRepository @Inject constructor(
             val addressResponse = try {
                 val token = userTokenDataStore.getToken()
                 if (token == null) {
-                    emit(Resource.NetworkUnauthorized())
+                    emit(Resource.NetworkUnauthenticated())
                     return@flow
                 }
                 customerApi.updateAddress(
@@ -154,7 +154,7 @@ class CustomerRepository @Inject constructor(
                     emit(Resource.NetworkSuccess(customer))
                 }
                 !addressResponse.isSuccessful && addressResponse.code() == 401 ->
-                    emit(Resource.NetworkUnauthorized())
+                    emit(Resource.NetworkUnauthenticated())
                 else ->
                     emit(Resource.NetworkError())
             }
