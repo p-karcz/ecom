@@ -5,26 +5,87 @@ import com.karcz.piotr.ecom.data.Resource
 import com.karcz.piotr.ecom.data.domain.ProductDomainModel
 import com.karcz.piotr.ecom.data.repository.ProductRepository
 import com.karcz.piotr.ecom.ui.base.BaseViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class ProductsViewModel @Inject constructor(
+class ProductsViewModel @AssistedInject constructor(
+    @Assisted private val initialCategory: String,
     private val productRepository: ProductRepository
 ) : BaseViewModel<ProductsViewState, ProductsEvent, ProductsInteraction>(
     ProductsViewState.INITIAL
 ) {
+    private var fetchedProducts: List<ProductDomainModel> = emptyList()
+
     init {
-        refreshViewState()
+        setUpInitialCategory(refreshViewState())
     }
 
     override fun onInteraction(interaction: ProductsInteraction) {
         when (interaction) {
-            is ProductsInteraction.CategoryTitleClicked -> { }
+            is ProductsInteraction.CategoryTitleClicked -> handleCategoryTitleClick(interaction.category)
             is ProductsInteraction.ProductClicked -> seeProduct(interaction.id)
-            is ProductsInteraction.ArgumentPassed -> { }
         }
+    }
+
+    private fun updateViewState(
+        products: List<ProductDomainModel>,
+        categories: List<Pair<String, Boolean>>
+    ) {
+        when (viewState.value) {
+            is ProductsViewState.Loading -> {}
+            is ProductsViewState.NetworkError -> {
+                _viewState.value = ProductsViewState.NetworkError(
+                    products = products,
+                    categories = categories
+                )
+            }
+            is ProductsViewState.Success -> {
+                _viewState.value = ProductsViewState.Success(
+                    products = products,
+                    categories = categories
+                )
+            }
+        }
+    }
+
+    private fun filterProductsWithCategories(categories: List<Pair<String, Boolean>>): List<ProductDomainModel> {
+        return fetchedProducts.filter { fetchedProduct ->
+            fetchedProduct.category in categories.filter { it.second }
+                .map { it.first }
+        }
+    }
+
+    private fun setUpInitialCategory(job: Job) {
+        viewModelScope.launch {
+            job.join()
+            val allCategories = fetchedProducts.map { it.category }.distinct()
+            val initialCategories = if (initialCategory.isNotEmpty()) {
+                allCategories.map { Pair(it, it == initialCategory) }
+            } else {
+                allCategories.map { Pair(it, true) }
+            }
+            val initialProducts = filterProductsWithCategories(initialCategories)
+
+            updateViewState(initialProducts, initialCategories)
+        }
+    }
+
+    private fun handleCategoryTitleClick(category: Pair<String, Boolean>) {
+        val newCategories = viewState.value.categories.map {
+            if (it.first != category.first) {
+                it
+            } else {
+                Pair(
+                    category.first,
+                    !category.second
+                )
+            }
+        }
+        val newProducts = filterProductsWithCategories(newCategories)
+
+        updateViewState(newProducts, newCategories)
     }
 
     private fun seeProduct(id: Int) {
@@ -33,37 +94,34 @@ class ProductsViewModel @Inject constructor(
         }
     }
 
-    private fun extractCategoryTitles(products: List<ProductDomainModel>): List<Pair<String, Boolean>> {
-        return products.map { it.category }.distinct().map { category ->
-            Pair(category, false)
-        }
+    private fun extractCategories(products: List<ProductDomainModel>): List<Pair<String, Boolean>> {
+        val distinctNewCategoriesTitles = products.map { it.category }.distinct()
+        val savedCategories =
+            viewState.value.categories.filter { it.first in distinctNewCategoriesTitles }
+        val newFetchedCategories =
+            distinctNewCategoriesTitles.filter { newCategoryTitle -> newCategoryTitle !in savedCategories.map { it.first } }
+        return savedCategories + newFetchedCategories.map { Pair(it, false) }
     }
 
-    private fun refreshViewState() {
+    private fun refreshViewState(): Job {
         _viewState.value = ProductsViewState.Loading
-        viewModelScope.launch {
-            productRepository.getProducts().collect { products ->
-                when (products) {
+        return viewModelScope.launch {
+            productRepository.getProducts().collect { productsResource ->
+                when (productsResource) {
                     is Resource.Cached -> {
-                        val newProducts = products.data
-                        val newCategoriesTitles = extractCategoryTitles(newProducts)
-                        val newCategoryProducts =
-                            newProducts.filter { it.category == newCategoriesTitles.first().first }
+                        fetchedProducts = productsResource.data
+                        val newCategories = extractCategories(productsResource.data)
                         _viewState.value = ProductsViewState.Success(
-                            products = newProducts,
-                            categories = newCategoriesTitles,
-                            categoryProducts = newCategoryProducts
+                            products = filterProductsWithCategories(newCategories),
+                            categories = newCategories
                         )
                     }
                     is Resource.NetworkSuccess -> {
-                        val newProducts = products.data
-                        val newCategoriesTitles = extractCategoryTitles(newProducts)
-                        val newCategoryProducts =
-                            newProducts.filter { it.category == newCategoriesTitles.first().first }
+                        fetchedProducts = productsResource.data
+                        val newCategories = extractCategories(productsResource.data)
                         _viewState.value = ProductsViewState.Success(
-                            products = newProducts,
-                            categories = newCategoriesTitles,
-                            categoryProducts = newCategoryProducts
+                            products = filterProductsWithCategories(newCategories),
+                            categories = newCategories
                         )
                     }
                     is Resource.NetworkError -> {
@@ -73,12 +131,11 @@ class ProductsViewModel @Inject constructor(
 
                         _viewState.value = ProductsViewState.NetworkError(
                             products = viewState.value.products,
-                            categories = viewState.value.categories,
-                            categoryProducts = viewState.value.categoryProducts
+                            categories = viewState.value.categories
                         )
                     }
                     else -> {
-                        throw IllegalStateException("Unexpected Resource type: ${products.javaClass}")
+                        throw IllegalStateException("Unexpected Resource type: ${productsResource.javaClass}")
                     }
                 }
             }

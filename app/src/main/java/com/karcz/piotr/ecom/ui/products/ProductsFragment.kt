@@ -10,6 +10,7 @@ import com.karcz.piotr.ecom.R
 import com.karcz.piotr.ecom.databinding.FragmentProductsBinding
 import com.karcz.piotr.ecom.ui.base.BaseStateFragment
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProductsFragment :
@@ -17,17 +18,22 @@ class ProductsFragment :
         FragmentProductsBinding::inflate
     ) {
 
+    @Inject
+    lateinit var productsViewModelFactory: ProductsViewModelFactory
+
     private val categoriesTitlesAdapter = CategoriesTitlesAdapter(::categoryOnClick)
     private val productsAdapter = ProductsAdapter(::productOnClick)
-
-    private val viewModel: ProductsViewModel by viewModels()
+    private val viewModel: ProductsViewModel by viewModels {
+        provideProductsViewModelFactory(
+            productsViewModelFactory,
+            arguments?.getString("category") ?: ""
+        )
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setUpRecyclerViews()
         observeViewState(viewModel)
         observeEvent(viewModel)
-        val category = arguments?.getString("category")
-        viewModel.onInteraction(ProductsInteraction.ArgumentPassed(category))
     }
 
     override fun handleViewState(viewState: ProductsViewState) {

@@ -2,13 +2,13 @@ package com.karcz.piotr.ecom.ui.product
 
 import com.karcz.piotr.ecom.data.domain.ProductDomainModel
 
-sealed class ProductViewState {
+sealed class ProductViewState(val product: ProductDomainModel?) {
 
-    data class Success(val productDomainModel: ProductDomainModel?) : ProductViewState()
-    object Loading : ProductViewState()
-    object Error : ProductViewState()
+    class Success(product: ProductDomainModel) : ProductViewState(product = product)
+    object Loading : ProductViewState(null)
+    class NetworkError(product: ProductDomainModel?) : ProductViewState(product = product)
 
     companion object {
-        val INITIAL = Success(productDomainModel = null)
+        val INITIAL = Loading
     }
 }

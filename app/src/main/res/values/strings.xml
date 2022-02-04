@@ -27,9 +27,13 @@ Delete that screenshot."</string>
 
     <string name="price">%1$s$</string>
     <string name="network_error">Problem with the internet connection occurred, cached data is displayed.</string>
+    <string name="authorization_required">To do this action you have to sign in.</string>
+    <string name="product_added_to_cart">Product was successfully added to cart.</string>
+    <string name="add_to_cart_network_error">Network error occurred while adding product to cart.</string>
     <string name="snackbar_ok">OK</string>
     <string name="home_categories_header">Explore by category</string>
     <string name="see_all">See all</string>
     <string name="home_all_products_header">Popular products</string>
     <string name="short_text">%1$s…</string>
+    <string name="add_to_cart">Add to cart</string>
 </resources>

@@ -1,3 +1,5 @@
 package com.karcz.piotr.ecom.ui.product
 
-sealed class ProductInteraction
+sealed class ProductInteraction {
+    object BuyButtonClicked : ProductInteraction()
+}
